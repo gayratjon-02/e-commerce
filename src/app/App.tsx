@@ -1,22 +1,78 @@
 import React from "react";
-import "../css/app.css";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import {Box, Button, Container, Stack, Typography} from "@mui/material";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Link, Route, Switch, useLocation } from "react-router-dom";
+import HomePage from "./screens/HomePage";
+import About from "./screens/About";
+import Account from "./screens/Account";
+import Cart from "./screens/Cart";
+import Checkout from "./screens/Checkout";
+import Contact from "./screens/Contact";
+import ErrorPage from "./screens/ErrorPage";
+import Login from "./screens/Login";
+import ProductDetails from "./screens/ProductDetails";
+import Signup from "./screens/Signup";
+import Wishlist from "./screens/Wishlist";
 
+import OtherNavbar from "./components/headers/OtherNavbar";
+import Footer from "./components/footer";
+
+import "../css/app.css";
+import "../css/navbar.css";
+import "../css/footer.css";
+import "../css/product.css";
 
 function App() {
-    return <Container maxWidth={"sm"}>
-        <Stack flexDirection={"column"}>
-            <Box sx={{my: 4}}>
-                <Typography variant={'h4'} component={'h4'}>Create React app with Redux and TypeScript</Typography>
-            </Box>
-        </Stack>
-    </Container>
+  const location = useLocation();
+
+  return (
+    <>
+      {location.pathname === "/" ? <Checkout /> : <OtherNavbar />}
+      <Switch>
+        <Route path="/about">
+          <About />
+        </Route>
+
+        <Route path="/contact">
+          <Contact />
+        </Route>
+
+        <Route path="/errorPage">
+          <ErrorPage />
+        </Route>
+
+        <Route path="/login">
+          <Login />
+        </Route>
+
+        <Route path="/productDetails">
+          <ProductDetails />
+        </Route>
+
+        <Route path="/signup">
+          <Signup />
+        </Route>
+
+        <Route path="/wishlist">
+          <Wishlist />
+        </Route>
+
+        <Route path="/checkout">
+          <Checkout />
+        </Route>
+        <Route path="/account">
+          <Account />
+        </Route>
+        <Route path="/cart">
+          <Cart />
+        </Route>
+
+        <Route path="/">
+          <HomePage />
+        </Route>
+      </Switch>
+      <Footer />
+    </>
+  );
 }
-    export default App;
 
-
-
-
-
+export default App;
