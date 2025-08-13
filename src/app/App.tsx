@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+// import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
 import HomePage from "./screens/HomePage";
 import About from "./screens/About";
@@ -11,6 +11,7 @@ import ErrorPage from "./screens/ErrorPage";
 import Login from "./screens/Login";
 import ProductDetails from "./screens/ProductDetails";
 import Signup from "./screens/Signup";
+import HomeNavbar from "./components/headers/HomeNavbar";
 import Wishlist from "./screens/Wishlist";
 
 import OtherNavbar from "./components/headers/OtherNavbar";
@@ -26,7 +27,7 @@ function App() {
 
   return (
     <>
-      {location.pathname === "/" ? <Checkout /> : <OtherNavbar />}
+      {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />}
       <Switch>
         <Route path="/about">
           <About />
