@@ -27,8 +27,9 @@ function App() {
 
   return (
     <>
-      {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />}
+      {/* {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />} */}
       <Switch>
+        <HomeNavbar />
         <Route path="/about">
           <About />
         </Route>
@@ -67,7 +68,7 @@ function App() {
           <Cart />
         </Route>
 
-        <Route path="/">
+        <Route path="/" exact>
           <HomePage />
         </Route>
       </Switch>

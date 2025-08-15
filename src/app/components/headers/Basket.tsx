@@ -33,7 +33,11 @@ export default function Basket() {
         onClick={handleClick}
       >
         <Badge badgeContent={3} color="secondary">
-          <img src={"/icons/shopping-cart.svg"} />
+          <img
+            src={"/icons/shopping-cart-icon.svg"}
+            width={"24px"}
+            height={"24px"}
+          />
         </Badge>
       </IconButton>
       <Menu
