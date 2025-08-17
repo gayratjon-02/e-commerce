@@ -1,3 +1,3 @@
 export default function ExploreProducts() {
-    return <div>CustomerService</div>
+  return <div>ExploreProducts</div>;
 }
