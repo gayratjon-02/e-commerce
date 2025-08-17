@@ -28,8 +28,8 @@ function App() {
   return (
     <>
       {/* {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />} */}
+      <HomeNavbar />
       <Switch>
-        <HomeNavbar />
         <Route path="/about">
           <About />
         </Route>
@@ -68,10 +68,11 @@ function App() {
           <Cart />
         </Route>
 
-        <Route path="/" exact>
+        <Route exact path="/">
           <HomePage />
         </Route>
       </Switch>
+
       <Footer />
     </>
   );
