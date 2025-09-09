@@ -1230,4 +1230,44 @@
   color: #fff;
 }
 
+.customer-service-main {
+  margin-top: 140px;
+  margin-bottom: 140px;
+  width: 100%;
+  height: auto;
+}
+.customer-service-main .service-wrapper {
+  width: 943px;
+  height: 161px;
+}
+.customer-service-main .service-wrapper .service-box {
+  width: 250px;
+  height: 141px;
+}
+.customer-service-main .service-wrapper .service-box img {
+  background-color: black;
+  border-radius: 16px;
+  width: 45px;
+  height: 45px;
+  color: red;
+}
+.customer-service-main .service-wrapper .service-box p {
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+  color: #000;
+}
+.customer-service-main .service-wrapper .service-box span {
+  color: #000;
+  text-align: center;
+  /* Title/14PX Regular */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px; /* 150% */
+}
+
 /*# sourceMappingURL=home.css.map */

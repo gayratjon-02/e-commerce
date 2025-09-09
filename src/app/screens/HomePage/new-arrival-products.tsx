@@ -1,11 +1,5 @@
 import { Badge, Box, Button, Container, Rating, Stack } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { NavLink } from "react-router-dom";
+
 
 export default function NewArrivalProducts() {
   return (
