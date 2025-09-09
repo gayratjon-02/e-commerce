@@ -18,6 +18,7 @@ export default function HomePage() {
         <FlashSales />
         <Divider width="2" height="1" bg="#d9d9d9" />
         <CategoryList />
+        <Divider width="2" height="1" bg="#d9d9d9" />
         <BestSellingProducts />
         <Advertaisment />
         <ExploreProducts />
