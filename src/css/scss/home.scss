@@ -57,7 +57,7 @@
       margin-left: 45px;
 
       .category-box-wrapper {
-        width: 892px;
+        width: 96%;
         height: 344px;
 
         background: var(--Text2, #000);
@@ -154,7 +154,7 @@
       height: auto;
 
       .sales-discount {
-        width: 1170px;
+        width: 1255px;
         height: 105px;
 
         .discount-left {
@@ -260,7 +260,7 @@
       height: 350px;
 
       .products-wrapper {
-        justify-content: flex-start; /* yoki center, gap berib ham ishlaydi */
+        justify-content: space-between; /* yoki center, gap berib ham ishlaydi */
         gap: 20px; /* productlar orasida masofa bo‘ladi */
         width: 100%;
         height: 350px;
@@ -447,7 +447,7 @@
     height: auto;
 
     .sales-discount {
-      width: 1170px;
+      width: 1255px;
       height: 105px;
 
       .discount-left {
@@ -585,7 +585,7 @@
     height: auto;
 
     .sales-discount {
-      width: 1170px;
+      width: 1255px;
       height: 105px;
 
       .discount-left {
@@ -649,7 +649,7 @@
   .products-wrapper {
     margin-top: 60px;
     margin-bottom: 140px;
-    justify-content: flex-start; /* yoki center, gap berib ham ishlaydi */
+    justify-content: space-between; /* yoki center, gap berib ham ishlaydi */
     gap: 20px; /* productlar orasida masofa bo‘ladi */
     width: 100%;
     height: 350px;
@@ -793,5 +793,120 @@
       opacity: 1;
       visibility: visible;
     }
+  }
+}
+
+//  advertaisment-main
+
+.advertaisment-main {
+  padding: 69px 0 69px 56px;
+
+  width: 100%;
+  height: 500px;
+
+  background: radial-gradient(circle at center, #666262, #111111, #1a1a1a);
+  background-size: 400% 400%;
+  animation: moveBg 7s ease infinite;
+
+  .advertaisment-wrapper {
+    position: relative;
+    span {
+      font-family: Poppins;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 20px; /* 125% */
+      color: var(--Button1, #0f6);
+    }
+
+    p {
+      width: 443px;
+      height: 120px;
+      font-family: Inter;
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 60px; /* 125% */
+      letter-spacing: 1.92px;
+      color: var(--Text, #fafafa);
+    }
+
+    .adv-time {
+      width: 320px;
+      height: 62px;
+
+      // background-color: rgba(0, 255, 102, 0.173);
+    }
+
+    .time-box {
+      width: 62px;
+      height: 62px;
+
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.962);
+      box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+      strong {
+        font-family: Poppins;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px; /* 125% */
+        color: var(--Text2, #000);
+      }
+
+      i {
+        color: var(--Text2, #000);
+        font-family: Poppins;
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px; /* 163.636% */
+      }
+    }
+
+    .buy-now-btn {
+      margin-top: 40px;
+      width: 171px;
+      height: 56px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 4px;
+      background: var(--Button1, #0f6);
+      cursor: pointer;
+      font-family: Poppins;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px; /* 150% */
+      color: var(--Text, #775a5a);
+    }
+
+    .img-box {
+      width: 568px;
+      height: 330px;
+
+
+      position: absolute;
+      top: 30px;
+      left: 542px;
+    }
+  }
+}
+
+@keyframes moveBg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+
+
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
