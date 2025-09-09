@@ -6,10 +6,13 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Pagination,
   Stack,
 } from "@mui/material";
+import AppleIcon from "@mui/icons-material/Apple";
 import Divider from "../../components/divider";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { NavLink } from "react-router-dom";
 
 export default function CategoryMain() {
   return (
@@ -57,7 +60,51 @@ export default function CategoryMain() {
           </Stack>
         </Stack>
 
-        <Box className="category-right"></Box>
+        <Box className="category-right">
+          <Stack
+            className="category-box-wrapper"
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+          >
+            <Box className="category-box-left">
+              <Stack
+                className="category-apple-logoText"
+                flexDirection={"row"}
+                alignItems={"center"}
+              >
+                <AppleIcon
+                  sx={{ color: "white", width: "40px", height: "50px" }}
+                />
+                <span>iPhone 14 Series</span>
+              </Stack>
+
+              <Box className="catt-vaucher-text">
+                <strong>Up to 10% off Voucher</strong>
+              </Box>
+
+              <Stack className="catt-shop-btn" flexDirection={"row"}>
+                <NavLink to="" className={"catt-shopBtn"}>
+                  Shop Now
+                </NavLink>
+                <ChevronRightIcon sx={{ color: "white" }} />
+              </Stack>
+            </Box>
+
+
+            <Box className="category-box-right">
+              <Box className="catt-iphone-logo">
+                <img
+                  src="/img/ipp.jpg"
+                  alt="iphone-logo.webp"
+                  width={"396px"}
+                  height={"252px"}
+                  className="logo-img"
+                />
+              </Box>
+              <Box className="catt-pagination"></Box>
+            </Box>
+          </Stack>
+        </Box>
       </Container>
     </div>
   );
