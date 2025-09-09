@@ -226,6 +226,7 @@
   width: 270px;
   height: 360px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: all 0.3s ease; /* animatsiya qo'shildi */
 }
 .flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top {
   width: 270px;
@@ -264,7 +265,7 @@
 }
 .flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a .view-like-box {
   width: 34px;
-  height: 56px;
+  height: 60px;
 }
 .flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-b {
   opacity: 0;
@@ -322,6 +323,10 @@
   font-weight: 500;
   line-height: 24px; /* 150% */
   text-decoration-line: line-through;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box:hover {
+  transform: translateY(-8px) scale(1.03); /* tepaga ko'tariladi va biroz kattalashadi */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box:hover .product-b {
   cursor: pointer;
@@ -459,12 +464,195 @@
   height: 145px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease; /* animatsiya qo'shildi */
 }
 .category-list-main .catt-wrapper .catt-box:hover {
   border-radius: 4px;
   background: var(--Secondary-2, #db4444);
   /* Categogy/5 */
-  box-shadow: 0 1px 13px 0 rgba(0, 0, 0, 0.05);
+  transform: translateY(-8px) scale(1.03); /* tepaga ko'tariladi va biroz kattalashadi */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.best-selling-products-main {
+  margin-top: 70px;
+}
+.best-selling-products-main .flash-sales-top {
+  width: 1300px;
+  height: auto;
+}
+.best-selling-products-main .flash-sales-top .sales-discount {
+  width: 1170px;
+  height: 105px;
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-left {
+  width: 600px;
+  height: 103px;
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-left .discount-today {
+  width: 120px;
+  height: 40px;
+  margin-bottom: 20px;
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-left .discount-today .discount-red {
+  width: 20px;
+  height: 40px;
+  border-radius: 4px;
+  background: var(--Secondary-2, #db4444);
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-left .discount-today span {
+  width: 300px;
+  margin-left: 16px;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 125% */
+  color: var(--Secondary-2, #db4444);
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-right {
+  padding-top: 60px;
+  width: 160px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.best-selling-products-main .flash-sales-top .sales-discount .discount-right .view-all {
+  width: 160px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: var(--Button2, #db4444);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  color: var(--Text, #fafafa);
+}
+.best-selling-products-main .products-wrapper {
+  margin-top: 60px;
+  margin-bottom: 140px;
+  justify-content: flex-start; /* yoki center, gap berib ham ishlaydi */
+  gap: 20px; /* productlar orasida masofa bo‘ladi */
+  width: 100%;
+  height: 350px;
+}
+.best-selling-products-main .products-wrapper .product-box {
+  position: relative;
+  width: 270px;
+  height: 360px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: all 0.3s ease; /* animatsiya qo'shildi */
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top {
+  width: 270px;
+  height: 250px;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-a {
+  position: relative;
+  width: 100%;
+  height: 209px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-a .discount-percentage {
+  width: 55px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  background: var(--Secondary-2, #db4444);
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-a .discount-percentage span {
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+  color: var(--Text, #fafafa);
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-a .product-image {
+  position: absolute;
+  top: 40px;
+  left: 50px;
+  width: 172px;
+  height: 152px;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-a .view-like-box {
+  width: 34px;
+  height: 56px;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-b {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 41px;
+  border-radius: 0 0 4px 4px;
+  background: var(--Button, #000);
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-top .product-b .cart-butt {
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: #fff;
+  color: whitesmoke;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-bott {
+  width: 100%;
+  height: 200px;
+  padding: 0 10px 0 10px;
+  box-sizing: border-box;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-bott span {
+  margin-top: 12px;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  color: #000;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-bott .product-price-box {
+  width: 85px;
+  height: 24px;
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-bott .product-price-box .curr-price {
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  color: var(--Secondary-2, #db4444);
+}
+.best-selling-products-main .products-wrapper .product-box .product-box-bott .product-price-box .down-price {
+  margin-left: 12px;
+  color: var(--Button, rgba(75, 72, 72, 0.4352941176));
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  text-decoration-line: line-through;
+}
+.best-selling-products-main .products-wrapper .product-box:hover {
+  transform: translateY(-8px) scale(1.03); /* tepaga ko'tariladi va biroz kattalashadi */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.best-selling-products-main .products-wrapper .product-box:hover .product-b {
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
 }
 
 /*# sourceMappingURL=home.css.map */
