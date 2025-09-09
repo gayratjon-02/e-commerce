@@ -1194,3 +1194,282 @@
     }
   }
 }
+
+// new-arrival-products-main
+
+.new-arrival-products-main {
+  margin-top: 140px;
+  width: 100%;
+  height: 768px;
+
+  .flash-sales-top {
+    width: 1300px;
+    height: auto;
+
+    .sales-discount {
+      width: 1255px;
+      height: 105px;
+
+      .discount-left {
+        width: 600px;
+        height: 103px;
+
+        .discount-today {
+          width: 180px;
+          height: 40px;
+          margin-bottom: 20px;
+          .discount-red {
+            width: 20px;
+            height: 40px;
+            border-radius: 4px;
+            background: var(--Secondary-2, #db4444);
+          }
+
+          span {
+            margin-left: 16px;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 20px; /* 125% */
+            color: var(--Secondary-2, #db4444);
+          }
+        }
+
+        .discount-date-wrapper {
+          width: 100%;
+          height: auto;
+
+          strong {
+            margin-top: 10px;
+            font-family: Inter;
+            font-size: 36px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 48px; /* 133.333% */
+            letter-spacing: 1.44px;
+            color: var(--Text2, #000);
+          }
+          .dynamic-wrapper {
+            margin-left: 87px;
+            width: 302px;
+            height: 50px;
+
+            .dynamic-box {
+              width: 46px;
+              height: 20px;
+
+              span {
+                margin: 0;
+                margin-bottom: 4px;
+                font-family: Poppins;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 18px; /* 150% */
+                color: var(--Text2, #000);
+              }
+
+              p {
+                margin: 0;
+                font-family: Inter;
+                font-size: 32px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 30px; /* 93.75% */
+                letter-spacing: 1.28px;
+                color: var(--Text2, #000);
+              }
+            }
+
+            .equal {
+              margin-top: 5px;
+              margin-left: 13px;
+              height: 50px;
+              width: 46px;
+              color: #e07575;
+              font-size: 37px;
+            }
+          }
+        }
+      }
+
+      .discount-right {
+        padding-top: 60px;
+        width: 60px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .arrival-wrapper {
+    margin-top: 60px;
+    width: 100%;
+    height: 600px;
+
+    .arrival-left {
+      width: 610px;
+      height: 600px;
+      border-radius: 4px;
+      background: var(--Button, #000);
+
+      .left-img {
+        width: 511px;
+        height: 511px;
+
+        .text-frame {
+          margin-top: 370px;
+          width: 242px;
+          height: 122px;
+
+          span {
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px; /* 100% */
+            letter-spacing: 0.72px;
+            color: var(--Text, #fafafaaa);
+          }
+          p {
+            font-family: Poppins;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 21px; /* 150% */
+            color: var(--Text, #fafafa);
+          }
+          .shop-now {
+            width: 81px;
+            height: 24px;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px; /* 150% */
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    .arrival-right {
+      // margin-left: 30px;
+      width: 610px;
+      height: 600px;
+
+      .arrival-box-a {
+        padding-left: 24px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 284px;
+
+        border-radius: 4px;
+        background: #0d0d0d;
+
+        .box-text {
+          margin-top: 140px;
+          width: 405px;
+          height: 122px;
+
+          span {
+            font-family: Inter;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 24px; /* 100% */
+            letter-spacing: 0.72px;
+            color: var(--Text, #fafafa);
+          }
+
+          p {
+            font-family: Poppins;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 21px; /* 150% */
+            color: var(--Text, #fafafa);
+          }
+
+          .shop-now {
+            cursor: pointer;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px; /* 150% */
+            color: #fff;
+          }
+        }
+
+        .box-img {
+          margin-top: 80px;
+          width: 432px;
+          height: 286px;
+          background-repeat: no-repeat;
+          background-size: contain;
+        }
+      }
+
+      .arrival-box-b {
+        margin-top: 35px;
+        width: 100%;
+        height: 284px;
+
+        .b-wrapper {
+          border-radius: 4px;
+          background: var(--Button, #000);
+          .b-left {
+            width: 295px;
+            height: 284px;
+
+            background-repeat: no-repeat;
+            background-size: 190px 221px;
+            background-position: center;
+
+            border-radius: 4px;
+
+            .b-left-text {
+              margin-left: 24px;
+              margin-top: 170px;
+              width: 191px;
+              height: 85px;
+
+              span {
+                font-family: Inter;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 24px; /* 100% */
+                letter-spacing: 0.72px;
+                color: var(--Text, #fafafa);
+              }
+
+              p {
+                font-family: Poppins;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 21px; /* 150% */
+                color: var(--Text, #fafafa);
+              }
+
+              .b-btn {
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
