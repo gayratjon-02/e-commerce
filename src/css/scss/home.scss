@@ -137,3 +137,296 @@
     }
   }
 }
+// FlashSales
+
+.flash-sales-main {
+  padding: 0;
+  margin-top: 140px;
+  height: 610px;
+
+  .flash-sales-wrapper {
+    width: 100%;
+    height: auto;
+
+    .flash-sales-top {
+      width: 1300px;
+      height: auto;
+
+      .sales-discount {
+        width: 1170px;
+        height: 105px;
+
+        .discount-left {
+          width: 600px;
+          height: 103px;
+
+          .discount-today {
+            width: 100px;
+            height: 40px;
+            margin-bottom: 20px;
+            .discount-red {
+              width: 20px;
+              height: 40px;
+              border-radius: 4px;
+              background: var(--Secondary-2, #db4444);
+            }
+
+            span {
+              margin-left: 16px;
+              font-family: Poppins;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 20px; /* 125% */
+              color: var(--Secondary-2, #db4444);
+            }
+          }
+
+          .discount-date-wrapper {
+            width: 100%;
+            height: auto;
+
+            strong {
+              margin-top: 10px;
+              font-family: Inter;
+              font-size: 36px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 48px; /* 133.333% */
+              letter-spacing: 1.44px;
+              color: var(--Text2, #000);
+            }
+            .dynamic-wrapper {
+              margin-left: 87px;
+              width: 302px;
+              height: 50px;
+
+              .dynamic-box {
+                width: 46px;
+                height: 20px;
+
+                span {
+                  margin: 0;
+                  margin-bottom: 4px;
+                  font-family: Poppins;
+                  font-size: 12px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px; /* 150% */
+                  color: var(--Text2, #000);
+                }
+
+                p {
+                  margin: 0;
+                  font-family: Inter;
+                  font-size: 32px;
+                  font-style: normal;
+                  font-weight: 700;
+                  line-height: 30px; /* 93.75% */
+                  letter-spacing: 1.28px;
+                  color: var(--Text2, #000);
+                }
+              }
+
+              .equal {
+                margin-top: 5px;
+                margin-left: 13px;
+                height: 50px;
+                width: 46px;
+                color: #e07575;
+                font-size: 37px;
+              }
+            }
+          }
+        }
+
+        .discount-right {
+          padding-top: 60px;
+          width: 60px;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .flash-sales-bottom {
+      margin-left: 10px;
+      margin-top: 40px;
+      width: 100%;
+      height: 350px;
+
+      .products-wrapper {
+        justify-content: flex-start; /* yoki center, gap berib ham ishlaydi */
+        gap: 20px; /* productlar orasida masofa bo‘ladi */
+        width: 100%;
+        height: 350px;
+
+        .product-box {
+          position: relative;
+          width: 270px;
+          height: 360px;
+
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+          .product-box-top {
+            width: 270px;
+            height: 250px;
+
+            // a
+            .product-a {
+              position: relative;
+              width: 100%;
+              height: 209px;
+              padding: 12px;
+              box-sizing: border-box;
+
+              .discount-percentage {
+                width: 55px;
+                height: 26px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                border-radius: 4px;
+                background: var(--Secondary-2, #db4444);
+
+                span {
+                  font-family: Poppins;
+                  font-size: 12px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 18px; /* 150% */
+                  color: var(--Text, #fafafa);
+                }
+              }
+
+              .product-image {
+                position: absolute;
+                top: 40px;
+                left: 50px;
+                width: 172px;
+                height: 152px;
+              }
+
+              .view-like-box {
+                width: 34px;
+                height: 56px;
+              }
+            }
+
+            // hover
+
+            // b
+
+            .product-b {
+              opacity: 0;
+              visibility: hidden;
+              transition: opacity 0.3s ease;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 41px;
+              border-radius: 0 0 4px 4px;
+              background: var(--Button, #000);
+
+              .cart-butt {
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px;
+                color: #fff;
+
+                color: whitesmoke;
+              }
+            }
+          }
+
+          .product-box-bott {
+            width: 100%;
+            height: 200px;
+
+            padding: 0 10px 0 10px;
+            box-sizing: border-box;
+
+            span {
+              margin-top: 12px;
+              font-family: Poppins;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 24px; /* 150% */
+              color: #000;
+            }
+
+            .product-price-box {
+              width: 85px;
+              height: 24px;
+              .curr-price {
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+                color: var(--Secondary-2, #db4444);
+              }
+
+              .down-price {
+                margin-left: 12px;
+
+                color: var(--Button, #4b48486f);
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 24px; /* 150% */
+                text-decoration-line: line-through;
+              }
+            }
+          }
+        }
+
+        .product-box:hover .product-b {
+          cursor: pointer;
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+
+    .view-all-products {
+      margin-top: 60px;
+      width: 100%;
+      height: 56px;
+
+      .view-all-butt {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 234px;
+        height: 56px;
+
+        border-radius: 4px;
+        background: var(--Button2, #db4444);
+
+        font-family: Poppins;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 1000;
+        line-height: 24px; /* 150% */
+        color: var(--Text, #fafafa);
+      }
+    }
+  }
+}
+
+// sx={{
+//   backgroundImage: "url('/productsImg/gamepad-2.png')",
+//   backgroundSize: "cover", // fonni to‘liq yopish
+//   backgroundPosition: "center",
+//   height:"auto"
+// }}
