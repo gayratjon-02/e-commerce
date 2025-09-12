@@ -7,7 +7,6 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { NavLink } from "react-router-dom";
 
-
 export default function CustomerService() {
   return (
     <Stack
@@ -49,8 +48,6 @@ export default function CustomerService() {
           <p>FREE AND FAST DELIVERY</p>
           <span>Free delivery for all orders over $140</span>
         </Stack>
-
-     
       </Stack>
     </Stack>
   );
