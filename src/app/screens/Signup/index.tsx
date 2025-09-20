@@ -37,7 +37,7 @@ export default function Signup() {
               alignItems={"center"}
             >
               <p>Already have account?</p>
-              <span>Log in</span>
+              <NavLink to={"/login"} className={"login-link"}>Log in</NavLink>
             </Stack>
           </form>
         </Stack>

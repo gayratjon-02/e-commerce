@@ -99,7 +99,7 @@
 .signup-container .signup-main .signup-right .have-account {
   margin-top: 16px;
 }
-.signup-container .signup-main .signup-right .have-account span {
+.signup-container .signup-main .signup-right .have-account .login-link {
   margin-left: 9px;
   border-bottom: 1px solid black;
   color: var(--Text2, rgba(0, 0, 0, 0.5215686275));
