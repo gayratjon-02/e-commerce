@@ -1,7 +1,6 @@
 import { Button, Container, Stack } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import "../../../css/signup.css";
 import { NavLink } from "react-router-dom";
+import "../../../css/signup.css";
 
 export default function Signup() {
   return (
@@ -37,7 +36,9 @@ export default function Signup() {
               alignItems={"center"}
             >
               <p>Already have account?</p>
-              <NavLink to={"/login"} className={"login-link"}>Log in</NavLink>
+              <NavLink to={"/login"} className={"login-link"}>
+                Log in
+              </NavLink>
             </Stack>
           </form>
         </Stack>

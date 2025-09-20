@@ -27,19 +27,17 @@ function App() {
 
   return (
     <>
-      {/* {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />} */}
       <HomeNavbar />
       <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
         <Route path="/about">
           <About />
         </Route>
 
         <Route path="/contact">
           <Contact />
-        </Route>
-
-        <Route path="/errorPage">
-          <ErrorPage />
         </Route>
 
         <Route path="/login">
@@ -68,8 +66,11 @@ function App() {
           <Cart />
         </Route>
 
-        <Route exact path="/">
-          <HomePage />
+        <Route path={"/errorPage"}>
+          <ErrorPage />
+        </Route>
+        <Route>
+          <ErrorPage />
         </Route>
       </Switch>
 
