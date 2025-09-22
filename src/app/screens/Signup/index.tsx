@@ -1,8 +1,63 @@
 import { Button, Container, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import "../../../css/signup.css";
+import { useEffect, useState } from "react";
+import { T } from "../../../lib/types/common";
+import { Messages } from "../../../lib/config";
+import { MemberInput } from "../../../lib/types/member";
+import MemberService from "../../services/MemberService";
+import {
+  sweetErrorHandling,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
 
 export default function Signup() {
+  const [memberNick, setMemberNick] = useState<string>("");
+  const [memberPhone, setMemberPhone] = useState<string>("");
+  const [memberPassword, setMemberPassword] = useState<string>("");
+
+  /** HANDLERS **/
+
+  const handleUsername = (e: T) => {
+    setMemberNick(e.target.value);
+  };
+
+  const handlePhone = (e: T) => {
+    setMemberPhone(e.target.value);
+  };
+
+  const handlePassword = (e: T) => {
+    setMemberPassword(e.target.value);
+  };
+
+  const handleSignupRequest = async () => {
+    try {
+      const isFullFill =
+        memberNick !== "" && memberPhone !== "" && memberPassword !== "";
+
+      if (!isFullFill) throw new Error(Messages.error3);
+      const signupInputs: MemberInput = {
+        memberNick: memberNick,
+        memberPhone: memberPhone,
+        memberPassword: memberPassword,
+      };
+
+      const memberService = new MemberService();
+      const result = await memberService.signup(signupInputs);
+
+      (document.querySelector("form") as HTMLFormElement).reset();
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const handlePasswordKeyDown = (e: T) => {
+    if (e.key === "Enter") {
+      handleSignupRequest().then();
+    }
+  };
+
   return (
     <Container className="signup-container">
       <Stack className="signup-main" flexDirection={"row"}>
@@ -14,16 +69,24 @@ export default function Signup() {
           <p>Enter your details below</p>
 
           <form action="#">
-            <input type="text" placeholder="Name" />
+            <input type="text" placeholder="Name" onChange={handleUsername} />
             <input
               type="email"
               name="email"
               id="email"
               placeholder="Email or Phone Number"
+              onChange={handlePhone}
             />
-            <input type="password" placeholder="Password" />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={handlePassword}
+              onKeyDown={handlePasswordKeyDown}
+            />
 
-            <Button className="signup-butt">Create Account</Button>
+            <Button className="signup-butt" onClick={handleSignupRequest}>
+              Create Account
+            </Button>
             <Button className="signup-butt2">
               <img src="/icons/Icon-Google.png" alt="" />
               <NavLink to={"#"}>Sign up with Google</NavLink>
