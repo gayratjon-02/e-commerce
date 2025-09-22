@@ -1,5 +1,5 @@
 import { Button, Container, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "../../../css/signup.css";
 import { useEffect, useState } from "react";
 import { T } from "../../../lib/types/common";
@@ -15,6 +15,8 @@ export default function Signup() {
   const [memberNick, setMemberNick] = useState<string>("");
   const [memberPhone, setMemberPhone] = useState<string>("");
   const [memberPassword, setMemberPassword] = useState<string>("");
+
+  const history = useHistory();
 
   /** HANDLERS **/
 
@@ -46,6 +48,8 @@ export default function Signup() {
       const result = await memberService.signup(signupInputs);
 
       (document.querySelector("form") as HTMLFormElement).reset();
+      sweetTopSuccessAlert("Signup successfully");
+      history.push("/");
     } catch (err) {
       console.log(err);
       sweetErrorHandling(err).then();
