@@ -18,22 +18,33 @@ import { retrieveFlashSales } from "./selector";
 
 import "../../../css/home.css";
 import { Product } from "../../../lib/types/product";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
 
 /**  REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
   setFlashSales: (data: Product[]) => dispatch(setFlashSales(data)),
 });
 
-const flashSalesRetriever = createSelector(
-  retrieveFlashSales,
-  (flashSales) => flashSales
-);
-
 export default function HomePage() {
   const { setFlashSales } = actionDispatch(useDispatch());
-  const flashSales = useSelector(flashSalesRetriever);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Backend fetch data
+    const product = new ProductService();
+    product
+      .getProducts({
+        page: 1,
+        limit: 4,
+        order: "productViews",
+        productCollection: ProductCollection.PHONE,
+      })
+      .then((data) => {
+        console.log("data", data);
+        setFlashSales(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="home-page">
       <Container className="home-container">
