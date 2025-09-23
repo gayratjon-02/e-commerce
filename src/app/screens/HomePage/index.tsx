@@ -8,9 +8,32 @@ import ExploreProducts from "./explore-products";
 import NewArrivalProducts from "./new-arrival-products";
 import CustomerService from "./customer-service";
 import { Container } from "@mui/material";
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { setFlashSales } from "./slice";
+import { retrieveFlashSales } from "./selector";
+
 import "../../../css/home.css";
+import { Product } from "../../../lib/types/product";
+
+/**  REDUX SLICE & SELECTOR **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setFlashSales: (data: Product[]) => dispatch(setFlashSales(data)),
+});
+
+const flashSalesRetriever = createSelector(
+  retrieveFlashSales,
+  (flashSales) => flashSales
+);
 
 export default function HomePage() {
+  const { setFlashSales } = actionDispatch(useDispatch());
+  const flashSales = useSelector(flashSalesRetriever);
+
+  useEffect(() => {}, []);
   return (
     <div className="home-page">
       <Container className="home-container">
