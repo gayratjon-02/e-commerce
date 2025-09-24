@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFlashSales } from "./selector";
 import { serverApi } from "../../../lib/config";
+import { useCountdown } from "./useCountdown";
 
 /**  REDUX SELECTOR **/
 const flashSalesRetriever = createSelector(
@@ -27,6 +28,7 @@ const flashSalesRetriever = createSelector(
 export default function FlashSales() {
   const flashSales = useSelector(flashSalesRetriever);
   console.log("flashSales:", flashSales);
+  const [days, hours, minutes, seconds] = useCountdown("2025-09-25T23:59:59");
 
   return (
     <Stack sx={{ padding: "0" }} className="flash-sales-main">
@@ -58,28 +60,28 @@ export default function FlashSales() {
                 >
                   <Stack className="dynamic-box">
                     <span>Days</span>
-                    <p>03</p>
+                    <p>{days}</p>
                   </Stack>
 
                   <Box className="equal">:</Box>
 
                   <Stack className="dynamic-box">
                     <span>Hours</span>
-                    <p>23</p>
+                    <p>{hours}</p>
                   </Stack>
 
                   <Box className="equal">:</Box>
 
                   <Stack className="dynamic-box">
                     <span>Minutes</span>
-                    <p>19</p>
+                    <p>{minutes}</p>
                   </Stack>
 
                   <Box className="equal">:</Box>
 
                   <Stack className="dynamic-box">
                     <span>Seconds</span>
-                    <p>56</p>
+                    <p>{seconds} </p>
                   </Stack>
                 </Stack>
               </Stack>

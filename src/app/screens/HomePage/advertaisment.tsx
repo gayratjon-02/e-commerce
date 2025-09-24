@@ -1,6 +1,9 @@
 import { Box, Button, Stack } from "@mui/material";
+import { useCountdown } from "./useCountdown";
 
 export default function Advertaisment() {
+    const [days, hours, minutes, seconds] = useCountdown("2025-09-25T23:59:59");
+  
   return (
     <Stack className="advertaisment-main">
       <Stack className="advertaisment-wrapper">
@@ -18,7 +21,7 @@ export default function Advertaisment() {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <strong>23</strong>
+            <strong>{days}</strong>
             <i>days</i>
           </Stack>
 
@@ -27,7 +30,7 @@ export default function Advertaisment() {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <strong>05</strong>
+            <strong>{hours}</strong>
             <i>Hours</i>
           </Stack>
 
@@ -36,7 +39,7 @@ export default function Advertaisment() {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <strong>59</strong>
+            <strong>{minutes}</strong>
             <i>Minutes</i>
           </Stack>
 
@@ -45,7 +48,7 @@ export default function Advertaisment() {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <strong>35</strong>
+            <strong>{seconds}</strong>
             <i>Seconds</i>
           </Stack>
         </Stack>
