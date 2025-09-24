@@ -25,9 +25,9 @@ export default function CategoryMain() {
           height={"384px"}
           flexDirection={"row"}
         >
-          <Stack className="left-catt" flexDirection={"column"}>
+          <Stack className="left-catt" flexDirection={"column"} justifyContent={"space-between"}>
             <Stack className="catt-text-wrapper" flexDirection={"row"}>
-              <Box className="catt-text">Woman's Fashion</Box>
+              <Box className="catt-text">PHONE</Box>
               <img
                 src="./icons/DropDownRight.png"
                 alt=""
@@ -36,8 +36,12 @@ export default function CategoryMain() {
               />
             </Stack>
 
-            <Stack className="catt-text-wrapper" flexDirection={"row"}>
-              <Box className="catt-text">Men’s Fashion</Box>
+            <Stack
+              className="catt-text-wrapper"
+              flexDirection={"row"}
+              justifyContent={"space-between"}
+            >
+              <Box className="catt-text">COMPUTER</Box>
               <img
                 src="./icons/DropDownRight.png"
                 alt=""
@@ -46,13 +50,11 @@ export default function CategoryMain() {
               />
             </Stack>
 
-            <Box className="catt-text">Electronics</Box>
-            <Box className="catt-text">Home & Lifestyle</Box>
-            <Box className="catt-text">Medicine</Box>
-            <Box className="catt-text">Sports & Outdoor</Box>
-            <Box className="catt-text">Baby’s & Toys</Box>
-            <Box className="catt-text">Groceries & Pets</Box>
-            <Box className="catt-text">Health & Beauty</Box>
+            <Box className="catt-text">WATCH</Box>
+            <Box className="catt-text">CAMERA</Box>
+            <Box className="catt-text">HEADPHONE</Box>
+            <Box className="catt-text">GAMING</Box>
+            <Box className="catt-text">OTHERS</Box>
           </Stack>
 
           <Stack className="line-catt">
@@ -89,7 +91,6 @@ export default function CategoryMain() {
                 <ChevronRightIcon sx={{ color: "white" }} />
               </Stack>
             </Box>
-
 
             <Box className="category-box-right">
               <Box className="catt-iphone-logo">
