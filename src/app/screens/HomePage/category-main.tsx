@@ -25,9 +25,15 @@ export default function CategoryMain() {
           height={"384px"}
           flexDirection={"row"}
         >
-          <Stack className="left-catt" flexDirection={"column"} justifyContent={"space-between"}>
+          <Stack
+            className="left-catt"
+            flexDirection={"column"}
+            justifyContent={"space-between"}
+          >
             <Stack className="catt-text-wrapper" flexDirection={"row"}>
-              <Box className="catt-text">PHONE</Box>
+              <NavLink to={""} className="catt-text">
+                PHONE
+              </NavLink>
               <img
                 src="./icons/DropDownRight.png"
                 alt=""
@@ -41,7 +47,9 @@ export default function CategoryMain() {
               flexDirection={"row"}
               justifyContent={"space-between"}
             >
-              <Box className="catt-text">COMPUTER</Box>
+              <NavLink to={""} className="catt-text">
+                COMPUTER
+              </NavLink>
               <img
                 src="./icons/DropDownRight.png"
                 alt=""
@@ -50,11 +58,21 @@ export default function CategoryMain() {
               />
             </Stack>
 
-            <Box className="catt-text">WATCH</Box>
-            <Box className="catt-text">CAMERA</Box>
-            <Box className="catt-text">HEADPHONE</Box>
-            <Box className="catt-text">GAMING</Box>
-            <Box className="catt-text">OTHERS</Box>
+            <NavLink to={""} className="catt-text">
+              WATCH
+            </NavLink>
+            <NavLink to={""} className="catt-text">
+              CAMERA
+            </NavLink>
+            <NavLink to={""} className="catt-text">
+              HEADPHONE
+            </NavLink>
+            <NavLink to={""} className="catt-text">
+              GAMING
+            </NavLink>
+            <NavLink to={""} className="catt-text">
+              OTHERS
+            </NavLink>
           </Stack>
 
           <Stack className="line-catt">
