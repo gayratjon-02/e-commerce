@@ -5,6 +5,7 @@ import {
   CssVarsProvider,
   Rating,
   Stack,
+  Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -18,6 +19,7 @@ import { createSelector } from "reselect";
 import { retrieveFlashSales } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { useCountdown } from "./useCountdown";
+import { red } from "@mui/material/colors";
 
 /**  REDUX SELECTOR **/
 const flashSalesRetriever = createSelector(
@@ -117,96 +119,56 @@ export default function FlashSales() {
                 : "/productsImg/gamepad-2.png";
 
               return (
-                <Stack className="product-box" key={ele.productName}>
-                  <CssVarsProvider key={ele._id}>
-                    <Stack
-                      className="product-box-top"
-                      flexDirection={"column"}
-                      justifyContent={"space-between"}
+                <Stack className="product-box-main">
+                  <span className="discount-percentage">-40%</span>
+                  <img className="product-images" src={imagePath} alt="image" />
+                  <Stack className="like-wiew" justifyContent={"space-between"}>
+                    <Badge
+                      badgeContent={ele.productLikes}
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: "#ff5500bf", // o‘zing xohlagan rang
+                          color: "white", // matn rangi
+                        },
+                      }}
                     >
-                      <Stack
-                        className="product-a"
-                        flexDirection={"row"}
-                        justifyContent={"space-between"}
-                      >
-                        <Box className="discount-percentage">
-                          <span>-40%</span>
-                        </Box>
+                      <FavoriteBorderIcon className="like-view-icon" />
+                    </Badge>
 
-                        <Stack
-                          className="product-image"
-                          sx={{
-                            backgroundImage: `url(${imagePath})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        ></Stack>
-
-                        <Stack
-                          className="view-like-box"
-                          flexDirection={"column"}
-                          alignItems={"center"}
-                          justifyContent={"space-between"}
-                        >
-                          <Badge
-                            badgeContent={ele.productLikes}
-                            color="secondary"
-                          >
-                            <FavoriteBorderIcon />
-                          </Badge>
-
-                          <Badge
-                            badgeContent={ele.productViews}
-                            color="secondary"
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </Badge>
-                        </Stack>
-                      </Stack>
-
-                      <Stack className="product-b">
-                        <Button className="cart-butt">Add to Cart</Button>
-                      </Stack>
-                    </Stack>
-
-                    {/**/}
-
-                    <Stack
-                      className="product-box-bott"
-                      flexDirection={"column"}
-                      justifyContent={"space-between"}
+                    <Badge
+                      badgeContent={ele.productViews}
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: "#ff5500bf", // o‘zing xohlagan rang
+                          color: "white", // matn rangi
+                        },
+                      }}
                     >
-                      <span>{ele.productName}</span>
+                      <RemoveRedEyeOutlinedIcon className="like-view-icon" />
+                    </Badge>
+                  </Stack>
 
-                      <Stack
-                        className="product-price-box"
-                        flexDirection={"row"}
-                      >
-                        <p className="curr-price">${ele.productPrice}</p>
-                        <p className="down-price">$160</p>
-                      </Stack>
+                  <Typography
+                    variant="h6"
+                    component="h2"
+                    className="productName"
+                  >
+                    {ele.productName}
+                  </Typography>
 
-                      <Box>
-                        <Rating
-                          name="half-rating"
-                          defaultValue={2.5}
-                          precision={1}
-                          icon={
-                            <StarIcon
-                              fontSize="inherit"
-                              style={{ color: "gold" }}
-                            />
-                          }
-                          emptyIcon={
-                            <StarBorderIcon
-                              fontSize="inherit"
-                              style={{ color: "gold" }}
-                            />
-                          }
-                        />
-                      </Box>
-                    </Stack>
-                  </CssVarsProvider>
+                  <Stack className="product-price" flexDirection={"row"}>
+                    <Box className="exact-price">${ele.productPrice}</Box>
+                    <Box ml={2} className="discount-price">
+                      $144
+                    </Box>
+                    <Typography
+                      variant="h3"
+                      component={"h2"}
+                      className="sold-count"
+                    >
+                      PURCHASE
+                    </Typography>
+                  </Stack>
                 </Stack>
               );
             })}

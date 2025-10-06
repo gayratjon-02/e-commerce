@@ -265,130 +265,136 @@
         width: 100%;
         height: 350px;
 
-        .product-box {
+        .product-box-main {
           position: relative;
           width: 270px;
-          height: 360px;
+          height: 350px;
 
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-          transition: all 0.3s ease; /* animatsiya qo'shildi */
+          border-radius: 10px;
+          background: var(--Secondary, #0a0a0a19);
 
-          .product-box-top {
-            width: 270px;
-            height: 250px;
+          .discount-percentage {
+            margin-top: 12px;
+            margin-left: 12px;
+            width: 55px;
+            height: 26px;
 
-            // a
-            .product-a {
-              position: relative;
-              width: 100%;
-              height: 209px;
-              padding: 12px;
-              box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-              .discount-percentage {
-                width: 55px;
-                height: 26px;
+            border-radius: 4px;
+            background: var(--Secondary-2, #db4444);
 
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            color: var(--Text, #fafafa);
+            font-family: Poppins;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 18px; /* 150% */
+          }
 
-                border-radius: 4px;
-                background: var(--Secondary-2, #db4444);
+          .product-images {
+            width: 100%;
+            height: 200px; /* yoki sizga mos o‘lcham */
+            object-fit: contain; /* yoki cover */
+            background-color: transparent; /* shaffof fon */
+            display: inline;
+            margin: 0 auto;
+          }
 
-                span {
-                  font-family: Poppins;
-                  font-size: 12px;
-                  font-style: normal;
-                  font-weight: 400;
-                  line-height: 18px; /* 150% */
-                  color: var(--Text, #fafafa);
-                }
-              }
+          .like-wiew {
+            position: absolute;
+            width: 34px;
+            height: 76px;
+            left: 220px;
+            top: 20px;
 
-              .product-image {
-                position: absolute;
-                top: 40px;
-                left: 50px;
-                width: 172px;
-                height: 152px;
-              }
-
-              .view-like-box {
-                width: 34px;
-                height: 60px;
-              }
-            }
-
-            // hover
-
-            // b
-
-            .product-b {
-              opacity: 0;
-              visibility: hidden;
-              transition: opacity 0.3s ease;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              height: 41px;
-              border-radius: 0 0 4px 4px;
-              background: var(--Button, #000);
-
-              .cart-butt {
-                font-family: Poppins;
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 24px;
-                color: #fff;
-
-                color: whitesmoke;
-              }
+            .like-view-icon {
+              width: 34px;
+              height: 34px;
+              border-radius: 50%;
+              background-color: rgba(255, 255, 255, 0.486);
             }
           }
 
-          .product-box-bott {
-            width: 100%;
-            height: 200px;
+          .productName {
+            display: inline;
+            margin-left: 16px;
+            margin-top: 16px;
+            color: #000;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px; /* 150% */
+          }
 
-            padding: 0 10px 0 10px;
-            box-sizing: border-box;
+         
 
-            span {
-              margin-top: 12px;
+          .product-price {
+            margin-left: 16px;
+            margin-top: 16px;
+
+            .exact-price {
+              color: var(--Secondary-2, #ed1111);
               font-family: Poppins;
               font-size: 16px;
               font-style: normal;
               font-weight: 500;
               line-height: 24px; /* 150% */
-              color: #000;
             }
 
-            .product-price-box {
-              width: 85px;
-              height: 24px;
-              .curr-price {
-                font-family: Poppins;
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 24px; /* 150% */
-                color: var(--Secondary-2, #db4444);
-              }
-
-              .down-price {
-                margin-left: 12px;
-
-                color: var(--Button, #4b48486f);
-                font-family: Poppins;
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 24px; /* 150% */
-                text-decoration-line: line-through;
-              }
+            .discount-price {
+              color: var(--Button, #00000052);
+              font-family: Poppins;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: 24px; /* 150% */
+              text-decoration-line: line-through;
             }
+
+            .sold-count {
+              width: 90px;
+              height: 30px;
+              margin-left: 60px;
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              border-radius: 25px;
+              background: #ff5500bf;
+              box-shadow: 4px 6px 20px 0 rgba(0, 0, 0, 0.1);
+
+              color: #fff;
+              font-family: Poppins;
+              font-size: 12px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+            }
+          }
+        }
+        //  product-box-main Hover
+        .product-box-main:hover {
+          transform: scale(1.04); /* butun kartani kattalashtiradi */
+          transition: transform 0.4s ease-in-out; /* sekinlik bilan */
+
+          img {
+            transform: scale(1.08); /* rasmni biroz kattalashtiradi */
+            transition: transform 0.5s ease-in-out;
+          }
+
+          .discount-percentage {
+            transform: scale(0.9); /* biroz kichiklashadi */
+            transition: transform 0.3s ease-in-out;
+          }
+
+          .like-wiew .like-view-icon {
+            transform: scale(0.9); /* u ham kichiklashadi */
+            transition: transform 0.3s ease-in-out;
           }
         }
 
@@ -1486,17 +1492,13 @@
     width: 943px;
     height: 161px;
 
-
     .service-box {
       width: 250px;
       height: 141px;
 
-
       img {
-
         background-color: black;
         border-radius: 16px;
-
 
         width: 45px;
         height: 45px;

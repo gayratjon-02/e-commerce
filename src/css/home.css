@@ -221,25 +221,16 @@
   width: 100%;
   height: 350px;
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box {
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main {
   position: relative;
   width: 270px;
-  height: 360px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  transition: all 0.3s ease; /* animatsiya qo'shildi */
+  height: 350px;
+  border-radius: 10px;
+  background: var(--Secondary, rgba(10, 10, 10, 0.0980392157));
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top {
-  width: 270px;
-  height: 250px;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a {
-  position: relative;
-  width: 100%;
-  height: 209px;
-  padding: 12px;
-  box-sizing: border-box;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a .discount-percentage {
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .discount-percentage {
+  margin-top: 12px;
+  margin-left: 12px;
   width: 55px;
   height: 26px;
   display: flex;
@@ -247,82 +238,98 @@
   align-items: center;
   border-radius: 4px;
   background: var(--Secondary-2, #db4444);
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a .discount-percentage span {
+  color: var(--Text, #fafafa);
   font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 18px; /* 150% */
-  color: var(--Text, #fafafa);
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a .product-image {
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .product-images {
+  width: 100%;
+  height: 200px; /* yoki sizga mos o‘lcham */
+  object-fit: contain; /* yoki cover */
+  background-color: transparent; /* shaffof fon */
+  display: inline;
+  margin: 0 auto;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .like-wiew {
   position: absolute;
-  top: 43px;
-  left: 50px;
-  width: 178px;
-  height: 215px;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-a .view-like-box {
   width: 34px;
-  height: 60px;
+  height: 76px;
+  left: 220px;
+  top: 20px;
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-b {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 41px;
-  border-radius: 0 0 4px 4px;
-  background: var(--Button, #000);
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .like-wiew .like-view-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.486);
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-top .product-b .cart-butt {
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  color: #fff;
-  color: whitesmoke;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-bott {
-  width: 100%;
-  height: 200px;
-  padding: 0 10px 0 10px;
-  box-sizing: border-box;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-bott span {
-  margin-top: 12px;
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .productName {
+  display: inline;
+  margin-left: 16px;
+  margin-top: 16px;
   color: #000;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-bott .product-price-box {
-  width: 85px;
-  height: 24px;
-}
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-bott .product-price-box .curr-price {
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px; /* 150% */
-  color: var(--Secondary-2, #db4444);
 }
-.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box .product-box-bott .product-price-box .down-price {
-  margin-left: 12px;
-  color: var(--Button, rgba(75, 72, 72, 0.4352941176));
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .product-price {
+  margin-left: 16px;
+  margin-top: 16px;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .product-price .exact-price {
+  color: var(--Secondary-2, #ed1111);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .product-price .discount-price {
+  color: var(--Button, rgba(0, 0, 0, 0.3215686275));
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px; /* 150% */
   text-decoration-line: line-through;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main .product-price .sold-count {
+  width: 90px;
+  height: 30px;
+  margin-left: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  background: rgba(255, 85, 0, 0.7490196078);
+  box-shadow: 4px 6px 20px 0 rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main:hover {
+  transform: scale(1.04); /* butun kartani kattalashtiradi */
+  transition: transform 0.4s ease-in-out; /* sekinlik bilan */
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main:hover img {
+  transform: scale(1.08); /* rasmni biroz kattalashtiradi */
+  transition: transform 0.5s ease-in-out;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main:hover .discount-percentage {
+  transform: scale(0.9); /* biroz kichiklashadi */
+  transition: transform 0.3s ease-in-out;
+}
+.flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box-main:hover .like-wiew .like-view-icon {
+  transform: scale(0.9); /* u ham kichiklashadi */
+  transition: transform 0.3s ease-in-out;
 }
 .flash-sales-main .flash-sales-wrapper .flash-sales-bottom .products-wrapper .product-box:hover {
   transform: translateY(-8px) scale(1.03); /* tepaga ko'tariladi va biroz kattalashadi */
