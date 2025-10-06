@@ -68,7 +68,37 @@ export default function CategoryList() {
           <img
             width={"56px"}
             height={"56px"}
-            src="/icons/Category-CellPhone.png"
+            src="/icons/Category-Camera.png"
+            alt="Category-CellPhone.png"
+          />
+          <Box marginTop={"16px"}>Phones</Box>
+        </Stack>
+
+        <Stack
+          className="catt-box"
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <img
+            width={"56px"}
+            height={"56px"}
+            src="/icons/Category-Computer.png"
+            alt="Category-CellPhone.png"
+          />
+          <Box marginTop={"16px"}>Phones</Box>
+        </Stack>
+
+        <Stack
+          className="catt-box"
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <img
+            width={"56px"}
+            height={"56px"}
+            src="/icons/Category-Gamepad.png"
             alt="Category-CellPhone.png"
           />
           <Box marginTop={"16px"}>Phones</Box>
@@ -98,37 +128,7 @@ export default function CategoryList() {
           <img
             width={"56px"}
             height={"56px"}
-            src="/icons/Category-CellPhone.png"
-            alt="Category-CellPhone.png"
-          />
-          <Box marginTop={"16px"}>Phones</Box>
-        </Stack>
-
-        <Stack
-          className="catt-box"
-          flexDirection={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <img
-            width={"56px"}
-            height={"56px"}
-            src="/icons/Category-CellPhone.png"
-            alt="Category-CellPhone.png"
-          />
-          <Box marginTop={"16px"}>Phones</Box>
-        </Stack>
-
-        <Stack
-          className="catt-box"
-          flexDirection={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <img
-            width={"56px"}
-            height={"56px"}
-            src="/icons/Category-CellPhone.png"
+            src="/icons/Category-Headphone.png"
             alt="Category-CellPhone.png"
           />
           <Box marginTop={"16px"}>Phones</Box>
