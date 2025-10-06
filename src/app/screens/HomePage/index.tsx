@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { setFlashSales } from "./slice";
+import { setBestSellingProducts, setFlashSales } from "./slice";
 import { retrieveFlashSales } from "./selector";
 
 import "../../../css/home.css";
@@ -24,27 +24,44 @@ import { ProductCollection } from "../../../lib/enums/product.enum";
 /**  REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
   setFlashSales: (data: Product[]) => dispatch(setFlashSales(data)),
+  setBestSellingProducts: (data: Product[]) =>
+    dispatch(setBestSellingProducts(data)),
 });
 
 export default function HomePage() {
   const { setFlashSales } = actionDispatch(useDispatch());
+  const { setBestSellingProducts } = actionDispatch(useDispatch());
 
   useEffect(() => {
-    // Backend fetch data
-    const product = new ProductService();
-    product
-      .getProducts({
-        page: 1,
-        limit: 4,
-        order: "latest",
-        productCollection: ProductCollection.PHONE,
-      })
-      .then((data) => {
-        console.log("data", data);
-        setFlashSales(data);
-      })
-      .catch((err) => console.log(err));
+    const fetchProducts = async () => {
+      try {
+        const product = new ProductService();
+
+        const [latest, bestSelling] = await Promise.all([
+          product.getProducts({
+            page: 1,
+            limit: 4,
+            order: "latest",
+            productCollection: ProductCollection.PHONE,
+          }),
+          product.getProducts({
+            page: 1,
+            limit: 4,
+            order: "bySold",
+            productCollection: ProductCollection.PHONE,
+          }),
+        ]);
+
+        setFlashSales(latest);
+        setBestSellingProducts(bestSelling);
+      } catch (err) {
+        console.error("Product fetch error:", err);
+      }
+    };
+
+    fetchProducts();
   }, []);
+
   return (
     <div className="home-page">
       <Container className="home-container">

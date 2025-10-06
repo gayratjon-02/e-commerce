@@ -9,6 +9,7 @@ export interface Product {
   productVolume: number;
   productDesc?: string;
   productLikes?: number;
+  productSoldCount: number;
   productImages: string[];
   productViews: number;
   createdAt: Date;
