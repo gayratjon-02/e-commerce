@@ -20,6 +20,7 @@ import "../../../css/home.css";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
+import ProductsPage from "../Products";
 
 /**  REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -75,6 +76,7 @@ export default function HomePage() {
         <ExploreProducts />
         <NewArrivalProducts />
         <CustomerService />
+        <ProductsPage />
       </Container>
     </div>
   );

@@ -21,6 +21,7 @@ import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
 import "../css/product.css";
+import ProductsPage from "./screens/Products";
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,11 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
+
+        <Route path="/products">
+          <ProductsPage />
+        </Route>
+
         <Route path="/about">
           <About />
         </Route>
