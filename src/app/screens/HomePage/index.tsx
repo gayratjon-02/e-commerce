@@ -21,6 +21,7 @@ import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import ProductsPage from "../Products";
+import { CartItem } from "../../../lib/types/search";
 
 /**  REDUX SLICE & SELECTOR **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -29,9 +30,14 @@ const actionDispatch = (dispatch: Dispatch) => ({
     dispatch(setBestSellingProducts(data)),
 });
 
-export default function HomePage() {
+interface HomePageProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function HomePage(props: HomePageProps) {
   const { setFlashSales } = actionDispatch(useDispatch());
   const { setBestSellingProducts } = actionDispatch(useDispatch());
+  const { onAdd } = props;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -67,7 +73,7 @@ export default function HomePage() {
     <div className="home-page">
       <Container className="home-container">
         <CategoryMain />
-        <FlashSales />
+        <FlashSales onAdd={onAdd}  />
         <Divider width="2" height="1" bg="#d9d9d9" />
         <CategoryList />
         <Divider width="2" height="1" bg="#d9d9d9" />

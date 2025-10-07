@@ -21,10 +21,16 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import UserMenu from "./avatar";
 import Basket from "./Basket";
+import { CartItem } from "../../../lib/types/search";
 
-export default function HomeNavbar() {
+interface HomeNavbarProps {
+  cartItems: CartItem[];
+}
+
+export default function HomeNavbar(props: HomeNavbarProps) {
   const authMember = true;
   const [language, setLanguage] = useState("en");
+  const {cartItems} = props
 
   const handleChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
@@ -99,7 +105,7 @@ export default function HomeNavbar() {
             </Box>
 
             <Box className="hover-line">
-              <Basket />
+              <Basket cartItems={cartItems} />
             </Box>
             {authMember ? (
               <Box className={"hover-line"}>

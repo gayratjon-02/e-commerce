@@ -20,6 +20,7 @@ import { retrieveFlashSales } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { useCountdown } from "./useCountdown";
 import { red } from "@mui/material/colors";
+import { CartItem } from "../../../lib/types/search";
 
 /**  REDUX SELECTOR **/
 const flashSalesRetriever = createSelector(
@@ -27,10 +28,15 @@ const flashSalesRetriever = createSelector(
   (flashSales) => flashSales
 );
 
-export default function FlashSales() {
+interface FlashSalesProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function FlashSales(props: FlashSalesProps) {
   const flashSales = useSelector(flashSalesRetriever);
   console.log("flashSales:", flashSales);
   const [days, hours, minutes, seconds] = useCountdown("2025-09-25T23:59:59");
+  const { onAdd } = props;
 
   return (
     <Stack sx={{ padding: "0" }} className="flash-sales-main">
@@ -165,6 +171,16 @@ export default function FlashSales() {
                       variant="h3"
                       component={"h2"}
                       className="sold-count"
+                      onClick={(e) => {
+                        onAdd({
+                          _id: ele._id,
+                          quantity: 1,
+                          name: ele.productName,
+                          price: ele.productPrice,
+                          image: ele.productImages[0],
+                        });
+                        e.stopPropagation();
+                      }}
                     >
                       PURCHASE
                     </Typography>
