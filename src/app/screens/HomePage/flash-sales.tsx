@@ -1,12 +1,6 @@
-import {
-  Badge,
-  Box,
-  Button,
-  CssVarsProvider,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
+import React from "react";
+
+import { Badge, Box, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -19,7 +13,7 @@ import { serverApi } from "../../../lib/config";
 import { useCountdown } from "./useCountdown";
 import { CartItem } from "../../../lib/types/search";
 
-/**  REDUX SELECTOR **/
+/** === REDUX SELECTOR === */
 const flashSalesRetriever = createSelector(
   retrieveFlashSales,
   (flashSales) => flashSales
@@ -29,173 +23,204 @@ interface FlashSalesProps {
   onAdd: (item: CartItem) => void;
 }
 
-export default function FlashSales(props: FlashSalesProps) {
+export default function FlashSales({ onAdd }: FlashSalesProps) {
   const flashSales = useSelector(flashSalesRetriever);
-  console.log("flashSales:", flashSales);
-  const [days, hours, minutes, seconds] = useCountdown("2025-09-25T23:59:59");
-  const { onAdd } = props;
+  const [days, hours, minutes, seconds] = useCountdown("2025-12-31T23:59:59");
 
   return (
-    <Stack sx={{ padding: "0" }} className="flash-sales-main">
-      <Stack className="flash-sales-wrapper" flexDirection={"column"}>
-        {/* TOP SECTION */}
+    <Stack className="flash-sales-main" sx={{ padding: 0 }}>
+      <Stack className="flash-sales-wrapper" flexDirection="column">
+        {/* === TOP SECTION === */}
         <Stack className="flash-sales-top">
           <Stack
             className="sales-discount"
-            flexDirection={"row"}
-            justifyContent={"space-between"}
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            <Stack className="discount-left" flexDirection={"column"}>
+            {/* LEFT: TITLE + COUNTDOWN */}
+            <Stack className="discount-left" flexDirection="column">
               <Stack
                 className="discount-today"
-                flexDirection={"row"}
-                alignItems={"center"}
+                flexDirection="row"
+                alignItems="center"
+                gap={1}
               >
-                <div className="discount-red"></div>
-                <span>Today's</span>
+                <Box className="discount-red" />
+                <Typography variant="body2">Today's</Typography>
               </Stack>
 
-              <Stack className="discount-date-wrapper" flexDirection={"row"}>
-                <strong>Flash Sales</strong>
+              <Stack
+                className="discount-date-wrapper"
+                flexDirection="row"
+                alignItems="center"
+                gap={3}
+              >
+                <Typography variant="h5" fontWeight={600}>
+                  Flash Sales
+                </Typography>
 
                 <Stack
                   className="dynamic-wrapper"
-                  flexDirection={"row"}
-                  justifyContent={"space-between"}
+                  flexDirection="row"
+                  alignItems="center"
+                  gap={1.5}
                 >
-                  <Stack className="dynamic-box">
-                    <span>Days</span>
-                    <p>{days}</p>
-                  </Stack>
-
-                  <Box className="equal">:</Box>
-
-                  <Stack className="dynamic-box">
-                    <span>Hours</span>
-                    <p>{hours}</p>
-                  </Stack>
-
-                  <Box className="equal">:</Box>
-
-                  <Stack className="dynamic-box">
-                    <span>Minutes</span>
-                    <p>{minutes}</p>
-                  </Stack>
-
-                  <Box className="equal">:</Box>
-
-                  <Stack className="dynamic-box">
-                    <span>Seconds</span>
-                    <p>{seconds} </p>
-                  </Stack>
+                  {[
+                    { label: "Days", value: days },
+                    { label: "Hours", value: hours },
+                    { label: "Minutes", value: minutes },
+                    { label: "Seconds", value: seconds },
+                  ].map((time, idx) => (
+                    <React.Fragment key={time.label}>
+                      <Stack className="dynamic-box" alignItems="center">
+                        <span>{time.label}</span>
+                        <p>{time.value}</p>
+                      </Stack>
+                      {idx < 3 && <Box className="equal">:</Box>}
+                    </React.Fragment>
+                  ))}
                 </Stack>
               </Stack>
             </Stack>
 
-            <Stack className="discount-right" flexDirection={"row"}>
+            {/* RIGHT: ARROWS */}
+            <Stack className="discount-right" flexDirection="row" gap={1}>
               <ArrowBackIcon
                 sx={{
-                  backgroundColor: " rgba(255, 255, 255, 0.619)",
+                  backgroundColor: "rgba(255,255,255,0.6)",
                   borderRadius: "50%",
+                  cursor: "pointer",
                 }}
               />
               <ArrowForwardIcon
                 sx={{
-                  backgroundColor: " rgba(255, 255, 255, 0.619)",
+                  backgroundColor: "rgba(255,255,255,0.6)",
                   borderRadius: "50%",
+                  cursor: "pointer",
                 }}
               />
             </Stack>
           </Stack>
         </Stack>
 
-        {/* BOTTOM PRODUCTS */}
+        {/* === BOTTOM: PRODUCTS === */}
         <Stack
           className="flash-sales-bottom"
-          justifyContent={"center"}
-          alignItems={"center"}
+          justifyContent="center"
+          alignItems="center"
         >
-          <Stack className="products-wrapper" flexDirection={"row"}>
-            {flashSales.map((ele) => {
-              const imagePath = ele.productImages?.length
-                ? `${serverApi}/${ele.productImages[0]}`
-                : "/productsImg/gamepad-2.png";
+          <Stack
+            className="products-wrapper"
+            flexDirection="row"
+            flexWrap="wrap"
+            justifyContent="center"
+            gap={3}
+          >
+            {flashSales.length > 0 ? (
+              flashSales.map((ele) => {
+                const imagePath = ele.productImages?.length
+                  ? `${serverApi}/${ele.productImages[0]}`
+                  : "/productsImg/gamepad-2.png";
 
-              return (
-                <Stack className="product-box-main">
-                  <span className="discount-percentage">-40%</span>
-                  <img className="product-images" src={imagePath} alt="image" />
-                  <Stack className="like-wiew" justifyContent={"space-between"}>
-                    <Badge
-                      badgeContent={ele.productLikes}
-                      sx={{
-                        "& .MuiBadge-badge": {
-                          backgroundColor: "#ff5500bf", // o‘zing xohlagan rang
-                          color: "white", // matn rangi
-                        },
-                      }}
+                return (
+                  <Stack key={ele._id} className="product-box-main">
+                    {/* DISCOUNT */}
+                    <span className="discount-percentage">-40%</span>
+
+                    {/* IMAGE */}
+                    <img
+                      className="product-images"
+                      src={imagePath}
+                      alt={ele.productName}
+                    />
+
+                    {/* LIKE + VIEW */}
+                    <Stack
+                      className="like-wiew"
+                      flexDirection={"column"}
+                      justifyContent="space-between"
                     >
-                      <FavoriteBorderIcon className="like-view-icon" />
-                    </Badge>
+                      <Badge
+                        badgeContent={ele.productLikes}
+                        sx={{
+                          "& .MuiBadge-badge": {
+                            backgroundColor: "#ff5500bf",
+                            color: "#fff",
+                          },
+                        }}
+                      >
+                        <FavoriteBorderIcon className="like-view-icon" />
+                      </Badge>
 
-                    <Badge
-                      badgeContent={ele.productViews}
-                      sx={{
-                        "& .MuiBadge-badge": {
-                          backgroundColor: "#ff5500bf", // o‘zing xohlagan rang
-                          color: "white", // matn rangi
-                        },
-                      }}
-                    >
-                      <RemoveRedEyeOutlinedIcon className="like-view-icon" />
-                    </Badge>
-                  </Stack>
+                      <Badge
+                        badgeContent={ele.productViews}
+                        sx={{
+                          "& .MuiBadge-badge": {
+                            backgroundColor: "#ff5500bf",
+                            color: "#fff",
+                          },
+                        }}
+                      >
+                        <RemoveRedEyeOutlinedIcon className="like-view-icon" />
+                      </Badge>
+                    </Stack>
 
-                  <Typography
-                    variant="h6"
-                    component="h2"
-                    className="productName"
-                  >
-                    {ele.productName}
-                  </Typography>
-
-                  <Stack className="product-price" flexDirection={"row"}>
-                    <Box className="exact-price">${ele.productPrice}</Box>
-                    <Box ml={2} className="discount-price">
-                      $144
-                    </Box>
+                    {/* PRODUCT NAME */}
                     <Typography
-                      sx={{ cursor: "pointer" }}
-                      variant="h3"
-                      component={"h2"}
-                      className="sold-count"
-                      onClick={(e: React.MouseEvent<HTMLHeadingElement>) => {
-                        onAdd({
-                          _id: ele._id,
-                          quantity: 1,
-                          name: ele.productName,
-                          price: ele.productPrice,
-                          image: ele.productImages[0],
-                        });
-                        e.stopPropagation();
-                      }}
+                      variant="h6"
+                      component="h2"
+                      className="productName"
                     >
-                      PURCHASE
+                      {ele.productName}
                     </Typography>
+
+                    {/* PRICE + BUTTON */}
+                    <Stack
+                      className="product-price"
+                      flexDirection="row"
+                      alignItems="center"
+                      gap={2}
+                    >
+                      <Box className="exact-price">${ele.productPrice}</Box>
+                      <Box className="discount-price">$144</Box>
+
+                      <Typography
+                        variant="h3"
+                        component="h2"
+                        className="sold-count"
+                        sx={{ cursor: "pointer", marginLeft: "auto" }}
+                        onClick={(e: React.MouseEvent<HTMLHeadingElement>) => {
+                          e.stopPropagation();
+                          onAdd({
+                            _id: ele._id,
+                            quantity: 1,
+                            name: ele.productName,
+                            price: ele.productPrice,
+                            image: ele.productImages[0],
+                          });
+                        }}
+                      >
+                        PURCHASE
+                      </Typography>
+                    </Stack>
                   </Stack>
-                </Stack>
-              );
-            })}
+                );
+              })
+            ) : (
+              <Typography className="no-products">No products found</Typography>
+            )}
           </Stack>
         </Stack>
 
-        {/* VIEW ALL */}
+        {/* === VIEW ALL === */}
         <Stack
           className="view-all-products"
-          justifyContent={"center"}
-          alignItems={"center"}
+          justifyContent="center"
+          alignItems="center"
+          mt={3}
         >
-          <NavLink className={"view-all-butt"} to="">
+          <NavLink className="view-all-butt" to="/products">
             View All Products
           </NavLink>
         </Stack>

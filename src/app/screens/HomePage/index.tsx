@@ -1,3 +1,11 @@
+import React, { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setBestSellingProducts, setFlashSales } from "./slice";
+import { Product } from "../../../lib/types/product";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { Container, Typography } from "@mui/material";
 import Divider from "../../components/divider";
 import CategoryMain from "./category-main";
 import FlashSales from "./flash-sales";
@@ -7,21 +15,10 @@ import Advertaisment from "./advertaisment";
 import ExploreProducts from "./explore-products";
 import NewArrivalProducts from "./new-arrival-products";
 import CustomerService from "./customer-service";
-import { Container } from "@mui/material";
-import { useEffect } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
-import { setBestSellingProducts, setFlashSales } from "./slice";
-
 import "../../../css/home.css";
-import { Product } from "../../../lib/types/product";
-import ProductService from "../../services/ProductService";
-import { ProductCollection } from "../../../lib/enums/product.enum";
-import ProductsPage from "../Products";
 import { CartItem } from "../../../lib/types/search";
 
-/**  REDUX SLICE & SELECTOR **/
+/**  REDUX SLICE DISPATCH **/
 const actionDispatch = (dispatch: Dispatch) => ({
   setFlashSales: (data: Product[]) => dispatch(setFlashSales(data)),
   setBestSellingProducts: (data: Product[]) =>
@@ -36,9 +33,14 @@ interface HomePageProps {
 }
 
 export default function HomePage(props: HomePageProps) {
-  const { setFlashSales } = actionDispatch(useDispatch());
-  const { setBestSellingProducts } = actionDispatch(useDispatch());
+  const dispatch = useDispatch();
   const { onAdd, onRemove, onDelete, onDeleteAll } = props;
+
+  /** ✅ Memoize qilamiz — har renderda yangidan yaratilmasin */
+  const { setFlashSales, setBestSellingProducts } = useMemo(
+    () => actionDispatch(dispatch),
+    [dispatch]
+  );
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -68,7 +70,7 @@ export default function HomePage(props: HomePageProps) {
     };
 
     fetchProducts();
-  }, []);
+  }, [setFlashSales, setBestSellingProducts]); // ✅ endi bu funksiya doim barqaror
 
   return (
     <div className="home-page">
