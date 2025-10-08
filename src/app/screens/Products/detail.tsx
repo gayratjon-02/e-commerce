@@ -11,6 +11,27 @@ import {
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { NavLink } from "react-router-dom";
 import Divider from "../../components/divider";
+import { createSelector, Dispatch } from "@reduxjs/toolkit";
+import { Product } from "../../../lib/types/product";
+import { setChosenProducts, setSeller } from "./slice";
+import { retrieveChosenProducts, retrieveSeller } from "./selector";
+
+/** REDUX SLICE & SELECTOR **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setSeller: (data: Product[]) => dispatch(setSeller(data)),
+  setChosenProducts: (data: Product[]) => dispatch(setChosenProducts(data)),
+});
+
+const chosenProductretriever = createSelector(
+  retrieveChosenProducts,
+  (chosenProduct) => ({
+    chosenProduct,
+  })
+);
+
+const sellerretriever = createSelector(retrieveSeller, (seller) => ({
+  seller,
+}));
 
 export default function Detail(): JSX.Element {
   const [quantity, setQuantity] = useState<number>(2);

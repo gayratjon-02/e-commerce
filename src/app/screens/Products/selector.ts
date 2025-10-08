@@ -1,19 +1,19 @@
 import { createSelector } from "reselect";
 import { AppRootState } from "../../../lib/types/screen";
 
-const selectHomePage = (state: AppRootState) => state.homePage;
+const selectProductsPage = (state: AppRootState) => state.productsPage;
 
-export const retrieveFlashSales = createSelector(
-  selectHomePage,
-  (HomePage) => HomePage.flashSales
+export const retrieveSeller = createSelector(
+  selectProductsPage,
+  (ProductsPage) => ProductsPage.seller
 );
 
-export const retrieveBestSellingProducts = createSelector(
-  selectHomePage,
-  (HomePage) => HomePage.bestSellingProducts
+export const retrieveChosenProducts = createSelector(
+  selectProductsPage,
+  (ProductsPage) => ProductsPage.chosenProduct
 );
 
-export const retrieveNewProducts = createSelector(
-  selectHomePage,
-  (HomePage) => HomePage.newProducts
+export const retrieveProducts = createSelector(
+  selectProductsPage,
+  (ProductsPage) => ProductsPage.products
 );

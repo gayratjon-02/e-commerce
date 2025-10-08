@@ -17,10 +17,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { retrieveFlashSales } from "../HomePage/selector";
 import { setFlashSales } from "../HomePage/slice";
 import { serverApi } from "../../../lib/config";
-import "../../../css/products.css";
 import { CartItem } from "../../../lib/types/search";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
+import { setProducts } from "./slice";
+import { Product } from "../../../lib/types/product";
+import { createSelector, Dispatch } from "@reduxjs/toolkit";
+import { retrieveProducts } from "./selector";
+
+/** REDUX SLICE & SELECTOR **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
+});
+
+const productsretriever = createSelector(retrieveProducts, (products) => ({
+  products,
+}));
 
 interface ProductsPageProps {
   onAdd: (item: CartItem) => void;

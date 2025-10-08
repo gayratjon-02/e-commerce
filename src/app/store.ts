@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import HomePageReducer from "./screens/HomePage/slice";
 import reduxLogger from "redux-logger";
+import ProductsPageReducer from "./screens/Products/slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -13,6 +14,7 @@ export const store = configureStore({
     getDefaultMiddleware().concat(reduxLogger),
   reducer: {
     homePage: HomePageReducer,
+    productsPage: ProductsPageReducer,
   },
 });
 
@@ -24,6 +26,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-function ProductsPageReducer(state: unknown, action: AnyAction): unknown {
-  throw new Error("Function not implemented.");
-}
+ 
