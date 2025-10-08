@@ -12,9 +12,7 @@ import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
 import { setBestSellingProducts, setFlashSales } from "./slice";
-import { retrieveFlashSales } from "./selector";
 
 import "../../../css/home.css";
 import { Product } from "../../../lib/types/product";
@@ -85,7 +83,6 @@ export default function HomePage(props: HomePageProps) {
         <ExploreProducts />
         <NewArrivalProducts />
         <CustomerService />
-        <ProductsPage />
       </Container>
     </div>
   );

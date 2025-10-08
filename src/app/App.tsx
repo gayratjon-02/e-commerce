@@ -20,7 +20,7 @@ import Footer from "./components/footer";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
-import "../css/product.css";
+import "../css/products.css";
 import ProductsPage from "./screens/Products";
 import { CartItem } from "../lib/types/search";
 import useBasket from "./hooks/useBasket";
@@ -49,7 +49,12 @@ function App() {
         </Route>
 
         <Route path="/products">
-          <ProductsPage />
+          <ProductsPage
+            onAdd={onAdd}
+            onRemove={onRemove}
+            onDelete={onDelete}
+            onDeleteAll={onDeleteAll}
+          />
         </Route>
 
         <Route path="/about">
