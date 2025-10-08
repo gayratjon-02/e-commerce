@@ -15,9 +15,7 @@ export default function OtherNavbar() {
           </Box>
           <Stack className="links">
             <Box className={"hover-line"}>
-              <NavLink to="/" >
-                Home
-              </NavLink>
+              <NavLink to="/">Home</NavLink>
             </Box>
 
             <Box className={"hover-line"}>
@@ -48,8 +46,6 @@ export default function OtherNavbar() {
               </NavLink>
             </Box>
             {/* BASKET  */}
-                        <Basket/>
-            
 
             {!authMember ? (
               <Box>

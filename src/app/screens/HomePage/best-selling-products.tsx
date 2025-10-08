@@ -1,24 +1,11 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Badge, Box, Stack, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { NavLink } from "react-router-dom";
 import { createSelector } from "@reduxjs/toolkit";
 import { retrieveBestSellingProducts, retrieveFlashSales } from "./selector";
 import { useSelector } from "react-redux";
-import { setBestSellingProducts } from "./slice";
 import { serverApi } from "../../../lib/config";
+import { CartItem } from "../../../lib/types/search";
 
 /**  REDUX SELECTOR **/
 const bestSellingProductsRetriever = createSelector(
@@ -26,9 +13,15 @@ const bestSellingProductsRetriever = createSelector(
   (bestSellingProducts) => bestSellingProducts
 );
 
-export default function BestSellingProducts() {
+interface BestSellingProductsProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function BestSellingProducts(props: BestSellingProductsProps) {
   const bestSellingProducts = useSelector(bestSellingProductsRetriever);
   console.log("bestSellingProducts:", bestSellingProducts);
+  const { onAdd } = props;
+
   return (
     <Stack className="best-selling-products-main">
       <Stack className="flash-sales-top">
@@ -106,9 +99,20 @@ export default function BestSellingProducts() {
                   {ele.productPrice + 134}
                 </Box>
                 <Typography
+                  sx={{ cursor: "pointer" }}
                   variant="h3"
                   component={"h2"}
                   className="sold-count"
+                  onClick={(e: React.MouseEvent<HTMLHeadingElement>) => {
+                    onAdd({
+                      _id: ele._id,
+                      quantity: 1,
+                      name: ele.productName,
+                      price: ele.productPrice,
+                      image: ele.productImages[0],
+                    });
+                    e.stopPropagation();
+                  }}
                 >
                   PURCHASE
                 </Typography>

@@ -32,12 +32,15 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 interface HomePageProps {
   onAdd: (item: CartItem) => void;
+  onRemove: (item: CartItem) => void;
+  onDelete: (item: CartItem) => void;
+  onDeleteAll: () => void;
 }
 
 export default function HomePage(props: HomePageProps) {
   const { setFlashSales } = actionDispatch(useDispatch());
   const { setBestSellingProducts } = actionDispatch(useDispatch());
-  const { onAdd } = props;
+  const { onAdd, onRemove, onDelete, onDeleteAll } = props;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -73,11 +76,11 @@ export default function HomePage(props: HomePageProps) {
     <div className="home-page">
       <Container className="home-container">
         <CategoryMain />
-        <FlashSales onAdd={onAdd}  />
+        <FlashSales onAdd={onAdd} />
         <Divider width="2" height="1" bg="#d9d9d9" />
         <CategoryList />
         <Divider width="2" height="1" bg="#d9d9d9" />
-        <BestSellingProducts />
+        <BestSellingProducts onAdd={onAdd} />
         <Advertaisment />
         <ExploreProducts />
         <NewArrivalProducts />

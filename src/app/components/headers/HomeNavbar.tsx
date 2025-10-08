@@ -25,12 +25,16 @@ import { CartItem } from "../../../lib/types/search";
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
+  onAdd: (item: CartItem) => void;
+  onRemove: (item: CartItem) => void;
+  onDelete: (item: CartItem) => void;
+  onDeleteAll: () => void;
 }
 
 export default function HomeNavbar(props: HomeNavbarProps) {
   const authMember = true;
   const [language, setLanguage] = useState("en");
-  const {cartItems} = props
+  const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
@@ -105,7 +109,13 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             </Box>
 
             <Box className="hover-line">
-              <Basket cartItems={cartItems} />
+              <Basket
+                cartItems={cartItems}
+                onAdd={onAdd}
+                onRemove={onRemove}
+                onDelete={onDelete}
+                onDeleteAll={onDeleteAll}
+              />
             </Box>
             {authMember ? (
               <Box className={"hover-line"}>

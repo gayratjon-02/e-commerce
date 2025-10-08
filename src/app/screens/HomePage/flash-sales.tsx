@@ -11,15 +11,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFlashSales } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { useCountdown } from "./useCountdown";
-import { red } from "@mui/material/colors";
 import { CartItem } from "../../../lib/types/search";
 
 /**  REDUX SELECTOR **/
@@ -168,10 +165,11 @@ export default function FlashSales(props: FlashSalesProps) {
                       $144
                     </Box>
                     <Typography
+                      sx={{ cursor: "pointer" }}
                       variant="h3"
                       component={"h2"}
                       className="sold-count"
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLHeadingElement>) => {
                         onAdd({
                           _id: ele._id,
                           quantity: 1,
