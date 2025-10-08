@@ -16,7 +16,7 @@ export default function ProductsPage() {
 
         {/* productlar ro‘yxati sahifasi */}
         <Route exact path={path}>
-          <h2>All Products Page</h2>
+          <h2>All Products Page!</h2>
           {/* shu yerda productlar list componentini joylashtirasiz */}
         </Route>
       </Switch>

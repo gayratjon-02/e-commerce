@@ -1057,11 +1057,12 @@
   color: var(--Text, #775a5a);
 }
 .advertaisment-main .advertaisment-wrapper .img-box {
-  width: 568px;
-  height: 330px;
+  width: 298px;
+  height: 500px;
   position: absolute;
-  top: 30px;
-  left: 542px;
+  top: -69px;
+  left: 602px;
+  transform: rotateZ(35deg);
 }
 
 @keyframes moveBg {

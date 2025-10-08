@@ -83,8 +83,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <NavLink exact to="/" activeClassName="underline">
               Home
             </NavLink>
-            <NavLink to={"/contact"} activeClassName="underline">
-              Contact
+            <NavLink to={"/products"} activeClassName="underline">
+              Products
             </NavLink>
             <NavLink to={"/about"} activeClassName="underline">
               About
