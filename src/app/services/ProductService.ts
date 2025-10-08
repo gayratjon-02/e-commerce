@@ -17,7 +17,7 @@ class ProductService {
       if (input.search) url += `&search=${input.search}`;
 
       const result = await axios.get(url);
-      console.log("result:", result);
+      console.log("result:++", result);
       return result.data;
     } catch (err) {
       console.log("Error, getProducts", err);

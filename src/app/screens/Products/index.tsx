@@ -14,8 +14,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector, useDispatch } from "react-redux";
-import { retrieveFlashSales } from "../HomePage/selector";
-import { setFlashSales } from "../HomePage/slice";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 import ProductService from "../../services/ProductService";
@@ -41,12 +39,11 @@ interface ProductsPageProps {
   onDeleteAll: () => void;
 }
 
-export default function ProductsPage({
-  onAdd,
-}: ProductsPageProps): JSX.Element {
-  const { path } = useRouteMatch();
-  const dispatch = useDispatch();
-  const flashSales = useSelector(retrieveFlashSales);
+export default function ProductsPage({ onAdd }: ProductsPageProps) {
+  // MINE
+
+  const { setProducts } = actionDispatch(useDispatch());
+  const { products } = useSelector(productsretriever);
 
   /** 🔹 Local States */
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,29 +52,23 @@ export default function ProductsPage({
   );
   const [selectedPriceRange, setSelectedPriceRange] = useState("All");
   const [sortOption, setSortOption] = useState("Popular");
+  const { path } = useRouteMatch();
 
-  /** 🔹 Fetch Products by Category */
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productService = new ProductService();
-        const latest = await productService.getProducts({
-          page: 1,
-          limit: 12,
-          order: "latest",
-          productCollection: selectedCategory,
-        });
-        dispatch(setFlashSales(latest));
-      } catch (err) {
-        console.error("Product fetch error:", err);
-      }
-    };
+    const product = new ProductService();
+    product
+      .getProducts({
+        page: 1,
+        limit: 8,
+        order: "createdAt",
+        productCollection: selectedCategory,
+        search: "",
+      })
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+  }, [selectedCategory]);
 
-    fetchProducts();
-  }, [selectedCategory, dispatch]);
-
-  /** 🔹 Search + Filter + Sort */
-  const filteredProducts = flashSales
+  const filteredProducts = products
     ?.filter((product) =>
       product.productName
         ?.toLowerCase()
