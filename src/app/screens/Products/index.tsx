@@ -15,11 +15,10 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector, useDispatch } from "react-redux";
 import { retrieveFlashSales } from "../HomePage/selector";
-import { setBestSellingProducts, setFlashSales } from "../HomePage/slice";
+import { setFlashSales } from "../HomePage/slice";
 import { serverApi } from "../../../lib/config";
+import "../../../css/products.css";
 import { CartItem } from "../../../lib/types/search";
-import { Product } from "../../../lib/types/product";
-import axios from "axios";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 
@@ -30,29 +29,32 @@ interface ProductsPageProps {
   onDeleteAll: () => void;
 }
 
-export default function ProductsPage(props: ProductsPageProps) {
-  const { onAdd } = props;
+export default function ProductsPage({
+  onAdd,
+}: ProductsPageProps): JSX.Element {
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
-
   const flashSales = useSelector(retrieveFlashSales);
 
+  /** 🔹 Local States */
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<ProductCollection>(
+    ProductCollection.PHONE
+  );
+  const [selectedPriceRange, setSelectedPriceRange] = useState("All");
+  const [sortOption, setSortOption] = useState("Popular");
 
+  /** 🔹 Fetch Products by Category */
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const product = new ProductService();
-
-        const [latest] = await Promise.all([
-          product.getProducts({
-            page: 1,
-            limit: 8,
-            order: "latest",
-            productCollection: ProductCollection.PHONE,
-          }),
-        ]);
-
+        const productService = new ProductService();
+        const latest = await productService.getProducts({
+          page: 1,
+          limit: 12,
+          order: "latest",
+          productCollection: selectedCategory,
+        });
         dispatch(setFlashSales(latest));
       } catch (err) {
         console.error("Product fetch error:", err);
@@ -60,13 +62,49 @@ export default function ProductsPage(props: ProductsPageProps) {
     };
 
     fetchProducts();
-  }, []);
+  }, [selectedCategory, dispatch]);
 
-  // 🔹 Search bo‘yicha filtrlash
-  const filteredProducts = flashSales?.filter((product) =>
-    product.productName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  /** 🔹 Search + Filter + Sort */
+  const filteredProducts = flashSales
+    ?.filter((product) =>
+      product.productName
+        ?.toLowerCase()
+        .includes(searchTerm.trim().toLowerCase())
+    )
+    ?.filter((product) => {
+      const price = product.productPrice;
+      switch (selectedPriceRange) {
+        case "Under2000":
+          return price < 2000;
+        case "1000-1800":
+          return price >= 1000 && price <= 1800;
+        case "700-999":
+          return price >= 700 && price <= 999;
+        case "400-699":
+          return price >= 400 && price <= 699;
+        case "Above399":
+          return price > 399;
+        default:
+          return true;
+      }
+    })
+    ?.sort((a, b) => {
+      switch (sortOption) {
+        case "Popular":
+          return (b.productViews ?? 0) - (a.productViews ?? 0);
+        case "Newest":
+          return (
+            new Date(b.createdAt ?? "").getTime() -
+            new Date(a.createdAt ?? "").getTime()
+          );
+        case "MostLiked":
+          return (b.productLikes ?? 0) - (a.productLikes ?? 0);
+        default:
+          return 0;
+      }
+    });
 
+  /** ========================= RETURN ========================= */
   return (
     <div className="products-page">
       <Switch>
@@ -77,33 +115,35 @@ export default function ProductsPage(props: ProductsPageProps) {
         <Route exact path={path}>
           <div className="product-main">
             <Stack className="product-main-wrapper" flexDirection="row">
-              {/* === CHAP TOMON: FILTER PANEL === */}
+              {/* === LEFT PANEL (FILTERS) === */}
               <Stack className="sorting-wrapper">
                 <Stack className="filter-box">
-                  {/* CATEGORY SECTION */}
+                  {/* CATEGORY */}
                   <div className="filter-section">
                     <h4 className="filter-title">CATEGORY</h4>
                     <div className="filter-options">
-                      <label>
-                        <input type="radio" name="category" /> Computer
-                      </label>
-                      <label>
-                        <input type="radio" name="category" defaultChecked />{" "}
-                        Phone
-                      </label>
-                      <label>
-                        <input type="radio" name="category" /> AirPods
-                      </label>
-                      <label>
-                        <input type="radio" name="category" /> Watch
-                      </label>
-                      <label>
-                        <input type="radio" name="category" /> Other
-                      </label>
+                      {["COMPUTER", "PHONE", "HEADPHONE", "WATCH", "OTHER"].map(
+                        (cat) => (
+                          <label key={cat}>
+                            <input
+                              type="radio"
+                              name="category"
+                              value={cat}
+                              checked={selectedCategory === cat}
+                              onChange={(e) =>
+                                setSelectedCategory(
+                                  e.target.value as ProductCollection
+                                )
+                              }
+                            />{" "}
+                            {cat}
+                          </label>
+                        )
+                      )}
                     </div>
                   </div>
 
-                  {/* PRICE RANGE SECTION */}
+                  {/* PRICE RANGE */}
                   <div className="filter-section">
                     <h4 className="filter-title">PRICE RANGE</h4>
                     <div className="slider-box">
@@ -116,35 +156,37 @@ export default function ProductsPage(props: ProductsPageProps) {
                     </div>
 
                     <div className="filter-options">
-                      <label>
-                        <input type="radio" name="price" /> All Price
-                      </label>
-                      <label>
-                        <input type="radio" name="price" /> Under $2000
-                      </label>
-                      <label>
-                        <input type="radio" name="price" /> $10000 - $18000
-                      </label>
-                      <label>
-                        <input type="radio" name="price" /> $700 - $999
-                      </label>
-                      <label>
-                        <input type="radio" name="price" /> $400 - $699
-                      </label>
-                      <label>
-                        <input type="radio" name="price" /> Above $399
-                      </label>
+                      {[
+                        { value: "All", label: "All Price" },
+                        { value: "Under2000", label: "Under $2000" },
+                        { value: "1000-1800", label: "$1000 - $1800" },
+                        { value: "700-999", label: "$700 - $999" },
+                        { value: "400-699", label: "$400 - $699" },
+                        { value: "Above399", label: "Above $399" },
+                      ].map((range) => (
+                        <label key={range.value}>
+                          <input
+                            type="radio"
+                            name="price"
+                            value={range.value}
+                            checked={selectedPriceRange === range.value}
+                            onChange={(e) =>
+                              setSelectedPriceRange(e.target.value)
+                            }
+                          />{" "}
+                          {range.label}
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </Stack>
               </Stack>
 
-              {/* === O‘RTADAGI QISM: SEARCH + SORT + PRODUCTLAR === */}
+              {/* === MIDDLE PANEL (PRODUCT LIST) === */}
               <Stack className="main-middle" flexDirection="column">
-                {/* SEARCH + SORT HEADER */}
+                {/* SEARCH & SORT BAR */}
                 <Stack className="product-content-top">
                   <div className="product-toolbar">
-                    {/* SEARCH BAR */}
                     <div className="search-box">
                       <SearchIcon className="search-icon" />
                       <InputBase
@@ -155,22 +197,19 @@ export default function ProductsPage(props: ProductsPageProps) {
                       />
                     </div>
 
-                    {/* SORT SELECT */}
                     <div className="sort-box">
                       <Typography className="sort-label">Sort By:</Typography>
-                      <Select defaultValue="Popular" className="sort-select">
+                      <Select
+                        value={sortOption}
+                        onChange={(e) => setSortOption(e.target.value)}
+                        className="sort-select"
+                      >
                         <MenuItem value="Popular">Popular</MenuItem>
                         <MenuItem value="Newest">Newest</MenuItem>
-                        <MenuItem value="PriceLowHigh">
-                          Price: Low to High
-                        </MenuItem>
-                        <MenuItem value="PriceHighLow">
-                          Price: High to Low
-                        </MenuItem>
+                        <MenuItem value="MostLiked">Most Liked</MenuItem>
                       </Select>
                     </div>
 
-                    {/* RESULT COUNT */}
                     <Typography className="results-text">
                       Result: {filteredProducts?.length || 0}
                     </Typography>
@@ -194,13 +233,13 @@ export default function ProductsPage(props: ProductsPageProps) {
                         return (
                           <Stack key={ele._id} className="product-box-main">
                             <span className="discount-percentage">-40%</span>
+
                             <img
                               className="product-images"
                               src={imagePath}
                               alt={ele.productName}
                             />
 
-                            {/* LIKE + VIEW BADGES */}
                             <Stack
                               className="like-wiew"
                               justifyContent="space-between"
@@ -230,12 +269,10 @@ export default function ProductsPage(props: ProductsPageProps) {
                               </Badge>
                             </Stack>
 
-                            {/* PRODUCT NAME */}
                             <Typography variant="h6" className="productName">
                               {ele.productName}
                             </Typography>
 
-                            {/* PRICE + PURCHASE */}
                             <Stack
                               className="product-price"
                               flexDirection="row"
@@ -247,11 +284,14 @@ export default function ProductsPage(props: ProductsPageProps) {
                               <Box ml={2} className="discount-price">
                                 $144
                               </Box>
+
                               <Typography
                                 sx={{ cursor: "pointer", marginLeft: "auto" }}
                                 variant="h3"
                                 className="sold-count"
-                                onClick={(e) => {
+                                onClick={(
+                                  e: React.MouseEvent<HTMLHeadingElement>
+                                ) => {
                                   onAdd({
                                     _id: ele._id,
                                     quantity: 1,
