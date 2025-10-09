@@ -8,6 +8,11 @@ export const retrieveFlashSales = createSelector(
   (HomePage) => HomePage.flashSales
 );
 
+export const retrieveMixedProducts = createSelector(
+  selectHomePage,
+  (HomePage) => HomePage.mixedProducts
+);
+
 export const retrieveBestSellingProducts = createSelector(
   selectHomePage,
   (HomePage) => HomePage.bestSellingProducts

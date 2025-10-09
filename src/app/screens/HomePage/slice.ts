@@ -5,6 +5,7 @@ const initialState: HomePageState = {
   flashSales: [],
   bestSellingProducts: [],
   newProducts: [],
+  mixedProducts: [],
 };
 
 const homePageSlice = createSlice({
@@ -13,6 +14,10 @@ const homePageSlice = createSlice({
   reducers: {
     setFlashSales: (state, action) => {
       state.flashSales = action.payload;
+    },
+
+    setMixedProducts: (state, action) => {
+      state.mixedProducts = action.payload;
     },
 
     setBestSellingProducts: (state, action) => {
@@ -25,8 +30,12 @@ const homePageSlice = createSlice({
   },
 });
 
-export const { setBestSellingProducts, setFlashSales, setNewProducts } =
-  homePageSlice.actions;
+export const {
+  setBestSellingProducts,
+  setFlashSales,
+  setNewProducts,
+  setMixedProducts,
+} = homePageSlice.actions;
 
 const HomePageReducer = homePageSlice.reducer;
 export default HomePageReducer;

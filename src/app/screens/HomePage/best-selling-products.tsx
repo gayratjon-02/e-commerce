@@ -6,7 +6,7 @@ import { retrieveBestSellingProducts, retrieveFlashSales } from "./selector";
 import { useSelector } from "react-redux";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 /**  REDUX SELECTOR **/
 const bestSellingProductsRetriever = createSelector(
@@ -52,7 +52,9 @@ export default function BestSellingProducts(props: BestSellingProductsProps) {
           </Stack>
 
           <Stack className="discount-right" flexDirection={"row"}>
-            <Box className="view-all">View All</Box>
+            <NavLink to={"/products"} className="view-all">
+              View All
+            </NavLink>
           </Stack>
         </Stack>
       </Stack>

@@ -15,6 +15,7 @@ export interface HomePageState {
   flashSales: Product[];
   bestSellingProducts: Product[];
   newProducts: Product[];
+  mixedProducts: Product[];
 }
 
 /** PROSUCTS PAGE **/

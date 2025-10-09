@@ -82,7 +82,7 @@ export default function HomePage(props: HomePageProps) {
         <Divider width="2" height="1" bg="#d9d9d9" />
         <BestSellingProducts onAdd={onAdd} />
         <Advertaisment />
-        <ExploreProducts />
+        <ExploreProducts onAdd={onAdd} />
         <NewArrivalProducts />
         <CustomerService />
       </Container>
