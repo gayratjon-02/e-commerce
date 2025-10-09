@@ -19,7 +19,7 @@ export default function CategoryMain() {
   const history = useHistory();
 
   /**Handlers */
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = (category: ProductCollection) => {
     history.push("/products", { category });
   };
   return (

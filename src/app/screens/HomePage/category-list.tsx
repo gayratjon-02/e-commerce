@@ -1,8 +1,17 @@
 import { Box, Container, Stack } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useHistory } from "react-router-dom";
+import { ProductCollection } from "../../../lib/enums/product.enum";
 
 export default function CategoryList() {
+  const history = useHistory();
+
+  /**Handlers */
+  const handleCategoryClick = (category: ProductCollection) => {
+    history.push("/products", { category });
+  };
+
   return (
     <Stack className="category-list-main">
       <Stack className="flash-sales-top">
@@ -49,6 +58,7 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          onClick={() => handleCategoryClick(ProductCollection.PHONE)}
         >
           <img
             width={"56px"}
@@ -64,6 +74,7 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          onClick={() => handleCategoryClick(ProductCollection.CAMERA)}
         >
           <img
             width={"56px"}
@@ -79,6 +90,7 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          onClick={() => handleCategoryClick(ProductCollection.COMPUTER)}
         >
           <img
             width={"56px"}
@@ -109,6 +121,7 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          onClick={() => handleCategoryClick(ProductCollection.PHONE)}
         >
           <img
             width={"56px"}
@@ -124,6 +137,7 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
+          onClick={() => handleCategoryClick(ProductCollection.HEADPHONE)}
         >
           <img
             width={"56px"}
