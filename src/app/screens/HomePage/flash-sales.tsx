@@ -5,7 +5,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFlashSales } from "./selector";
@@ -26,6 +26,11 @@ interface FlashSalesProps {
 export default function FlashSales({ onAdd }: FlashSalesProps) {
   const flashSales = useSelector(flashSalesRetriever);
   const [days, hours, minutes, seconds] = useCountdown("2025-12-31T23:59:59");
+  const history = useHistory();
+
+  const chooseProductHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
 
   return (
     <Stack className="flash-sales-main" sx={{ padding: 0 }}>
@@ -124,7 +129,11 @@ export default function FlashSales({ onAdd }: FlashSalesProps) {
                   : "/productsImg/gamepad-2.png";
 
                 return (
-                  <Stack key={ele._id} className="product-box-main">
+                  <Stack
+                    key={ele._id}
+                    className="product-box-main"
+                    onClick={() => chooseProductHandler(ele._id)}
+                  >
                     {/* DISCOUNT */}
                     <span className="discount-percentage">-40%</span>
 

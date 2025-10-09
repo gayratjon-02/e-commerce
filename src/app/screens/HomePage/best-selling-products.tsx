@@ -6,6 +6,7 @@ import { retrieveBestSellingProducts, retrieveFlashSales } from "./selector";
 import { useSelector } from "react-redux";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
+import { useHistory } from "react-router-dom";
 
 /**  REDUX SELECTOR **/
 const bestSellingProductsRetriever = createSelector(
@@ -18,6 +19,11 @@ interface BestSellingProductsProps {
 }
 
 export default function BestSellingProducts(props: BestSellingProductsProps) {
+  const history = useHistory();
+
+  const chooseProductHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
   const bestSellingProducts = useSelector(bestSellingProductsRetriever);
   console.log("bestSellingProducts:", bestSellingProducts);
   const { onAdd } = props;
@@ -60,7 +66,11 @@ export default function BestSellingProducts(props: BestSellingProductsProps) {
             : "/productsImg/gamepad-2.png";
 
           return (
-            <Stack key={ele._id} className="product-box-main">
+            <Stack
+              key={ele._id}
+              className="product-box-main"
+              onClick={() => chooseProductHandler(ele._id)}
+            >
               <span className="discount-percentage">-40%</span>
               <img className="product-images" src={imagePath} alt="image" />
               <Stack className="like-wiew" justifyContent={"space-between"}>

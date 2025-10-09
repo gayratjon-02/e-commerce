@@ -15,8 +15,8 @@ import Advertaisment from "./advertaisment";
 import ExploreProducts from "./explore-products";
 import NewArrivalProducts from "./new-arrival-products";
 import CustomerService from "./customer-service";
-import "../../../css/home.css";
 import { CartItem } from "../../../lib/types/search";
+import "../../../css/home.css";
 
 /**  REDUX SLICE DISPATCH **/
 const actionDispatch = (dispatch: Dispatch) => ({
