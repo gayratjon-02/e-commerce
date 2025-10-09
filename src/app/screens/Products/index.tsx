@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Detail from "./detail";
 import {
   Stack,
@@ -44,6 +44,7 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
 
   const { setProducts } = actionDispatch(useDispatch());
   const { products } = useSelector(productsretriever);
+  const history = useHistory();
 
   /** 🔹 Local States */
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,6 +107,11 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
           return 0;
       }
     });
+
+  // HANDLERS
+  const chooseProductHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
 
   /** ========================= RETURN ========================= */
   return (
@@ -234,7 +240,11 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
                           : "/productsImg/gamepad-2.png";
 
                         return (
-                          <Stack key={ele._id} className="product-box-main">
+                          <Stack
+                            key={ele._id}
+                            className="product-box-main"
+                            onClick={() => chooseProductHandler(ele._id)}
+                          >
                             <span className="discount-percentage">-40%</span>
 
                             <img
