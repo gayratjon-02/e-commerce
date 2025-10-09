@@ -12,9 +12,16 @@ import {
 import AppleIcon from "@mui/icons-material/Apple";
 import Divider from "../../components/divider";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { ProductCollection } from "../../../lib/enums/product.enum";
 
 export default function CategoryMain() {
+  const history = useHistory();
+
+  /**Handlers */
+  const handleCategoryClick = (category: string) => {
+    history.push("/products", { category });
+  };
   return (
     <div className="category-main">
       {/* <Divider width="2" height="1" bg="#d9d9d9" /> */}
@@ -30,7 +37,11 @@ export default function CategoryMain() {
             flexDirection={"column"}
             justifyContent={"space-between"}
           >
-            <Stack className="catt-text-wrapper" flexDirection={"row"}>
+            <Stack
+              className="catt-text-wrapper"
+              flexDirection={"row"}
+              onClick={() => handleCategoryClick(ProductCollection.PHONE)}
+            >
               <NavLink to={""} className="catt-text">
                 PHONE
               </NavLink>
@@ -41,11 +52,11 @@ export default function CategoryMain() {
                 height={"24px"}
               />
             </Stack>
-
             <Stack
               className="catt-text-wrapper"
               flexDirection={"row"}
               justifyContent={"space-between"}
+              onClick={() => handleCategoryClick(ProductCollection.COMPUTER)}
             >
               <NavLink to={""} className="catt-text">
                 COMPUTER
@@ -58,21 +69,24 @@ export default function CategoryMain() {
               />
             </Stack>
 
-            <NavLink to={""} className="catt-text">
+            <span
+              className="catt-text"
+              onClick={() => handleCategoryClick(ProductCollection.WATCH)}
+            >
               WATCH
-            </NavLink>
-            <NavLink to={""} className="catt-text">
-              CAMERA
-            </NavLink>
-            <NavLink to={""} className="catt-text">
+            </span>
+            <span
+              className="catt-text"
+              onClick={() => handleCategoryClick(ProductCollection.HEADPHONE)}
+            >
               HEADPHONE
-            </NavLink>
-            <NavLink to={""} className="catt-text">
-              GAMING
-            </NavLink>
-            <NavLink to={""} className="catt-text">
+            </span>
+            <span
+              className="catt-text"
+              onClick={() => handleCategoryClick(ProductCollection.OTHER)}
+            >
               OTHERS
-            </NavLink>
+            </span>
           </Stack>
 
           <Stack className="line-catt">

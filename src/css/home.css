@@ -33,6 +33,7 @@
   .catt-text-wrapper
   .catt-text {
   /* Title/16PX Regular */
+  cursor: pointer;
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
@@ -41,6 +42,8 @@
   color: var(--Text2, #000);
 }
 .category-main .category-container .category-left .left-catt .catt-text {
+  cursor: pointer;
+
   /* Title/16PX Regular */
   font-family: Poppins;
   font-size: 16px;

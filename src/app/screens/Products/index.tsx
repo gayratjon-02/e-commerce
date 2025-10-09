@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import Detail from "./detail";
 import {
   Stack,
@@ -38,9 +44,15 @@ interface ProductsPageProps {
   onDelete: (item: CartItem) => void;
   onDeleteAll: () => void;
 }
+interface LocationState {
+  category?: ProductCollection;
+}
 
 export default function ProductsPage({ onAdd }: ProductsPageProps) {
   // MINE
+  const location = useLocation<LocationState>();
+  const initialCategory =
+    (location.state?.category as ProductCollection) || ProductCollection.PHONE;
 
   const { setProducts } = actionDispatch(useDispatch());
   const { products } = useSelector(productsretriever);
@@ -48,9 +60,8 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
 
   /** 🔹 Local States */
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<ProductCollection>(
-    ProductCollection.PHONE
-  );
+  const [selectedCategory, setSelectedCategory] =
+    useState<ProductCollection>(initialCategory);
   const [selectedPriceRange, setSelectedPriceRange] = useState("All");
   const [sortOption, setSortOption] = useState("Popular");
   const { path } = useRouteMatch();
