@@ -34,9 +34,9 @@ export default function CustomerService() {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          <img src="/icons/icon-delivery.svg" alt="" />
-          <p>FREE AND FAST DELIVERY</p>
-          <span>Free delivery for all orders over $140</span>
+          <img src="/img/Icon-Customer service.svg" alt="" />
+          <p>24/7 CUSTOMER SERVICE</p>
+          <span>Friendly 24/7 customer support</span>
         </Stack>
 
         <Stack
@@ -44,9 +44,9 @@ export default function CustomerService() {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          <img src="/icons/icon-delivery.svg" alt="" />
-          <p>FREE AND FAST DELIVERY</p>
-          <span>Free delivery for all orders over $140</span>
+          <img src="/icons/Icon-secure.png" alt="" />
+          <p>MONEY BACK GUARANTEE</p>
+          <span>We reurn money within 30 days</span>
         </Stack>
       </Stack>
     </Stack>
