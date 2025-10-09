@@ -71,7 +71,7 @@ export default function CategoryList() {
             src="/icons/Category-Camera.png"
             alt="Category-CellPhone.png"
           />
-          <Box marginTop={"16px"}>Phones</Box>
+          <Box marginTop={"16px"}>Camera</Box>
         </Stack>
 
         <Stack
@@ -86,7 +86,7 @@ export default function CategoryList() {
             src="/icons/Category-Computer.png"
             alt="Category-CellPhone.png"
           />
-          <Box marginTop={"16px"}>Phones</Box>
+          <Box marginTop={"16px"}>Computer</Box>
         </Stack>
 
         <Stack
@@ -101,7 +101,7 @@ export default function CategoryList() {
             src="/icons/Category-Gamepad.png"
             alt="Category-CellPhone.png"
           />
-          <Box marginTop={"16px"}>Phones</Box>
+          <Box marginTop={"16px"}>Games</Box>
         </Stack>
 
         <Stack
@@ -131,7 +131,7 @@ export default function CategoryList() {
             src="/icons/Category-Headphone.png"
             alt="Category-CellPhone.png"
           />
-          <Box marginTop={"16px"}>Phones</Box>
+          <Box marginTop={"16px"}>AirPods</Box>
         </Stack>
       </Stack>
     </Stack>
