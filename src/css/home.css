@@ -1783,12 +1783,15 @@
 .new-arrival-products-main .arrival-wrapper .arrival-left .left-img {
   width: 511px;
   height: 511px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .new-arrival-products-main
   .arrival-wrapper
   .arrival-left
   .left-img
   .text-frame {
+  margin-left: 60px;
   margin-top: 370px;
   width: 242px;
   height: 122px;
@@ -1805,41 +1808,15 @@
   font-weight: 600;
   line-height: 24px; /* 100% */
   letter-spacing: 0.72px;
-  color: var(--Text, rgba(250, 250, 250, 0.6666666667));
+  color: var(--Text, rgb(5, 5, 4));
 }
-.new-arrival-products-main
-  .arrival-wrapper
-  .arrival-left
-  .left-img
-  .text-frame
-  p {
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 21px; /* 150% */
-  color: var(--Text, #fafafa);
-}
-.new-arrival-products-main
-  .arrival-wrapper
-  .arrival-left
-  .left-img
-  .text-frame
-  .shop-now {
-  width: 81px;
-  height: 24px;
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
-  color: #fff;
-}
+
 .new-arrival-products-main .arrival-wrapper .arrival-right {
   width: 610px;
   height: 600px;
 }
 .new-arrival-products-main .arrival-wrapper .arrival-right .arrival-box-a {
+  position: relative;
   padding-left: 24px;
   box-sizing: border-box;
   width: 100%;
@@ -1902,11 +1879,14 @@
   .arrival-right
   .arrival-box-a
   .box-img {
-  margin-top: 80px;
-  width: 432px;
-  height: 286px;
+  left: 191px;
+  position: absolute;
+  margin-top: -51px;
+  width: 192px;
+  height: 396px;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
+  transform: rotate(90deg);
 }
 .new-arrival-products-main .arrival-wrapper .arrival-right .arrival-box-b {
   margin-top: 35px;
@@ -1918,6 +1898,7 @@
   .arrival-right
   .arrival-box-b
   .b-wrapper {
+  position: relative;
   border-radius: 4px;
   background: var(--Button, #000);
 }
@@ -1927,6 +1908,7 @@
   .arrival-box-b
   .b-wrapper
   .b-left {
+  /* position: absolute; */
   width: 295px;
   height: 284px;
   background-repeat: no-repeat;

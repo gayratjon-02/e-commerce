@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Container, Rating, Stack } from "@mui/material";
 
-
 export default function NewArrivalProducts() {
   return (
     <Stack className="new-arrival-products-main">
@@ -21,7 +20,7 @@ export default function NewArrivalProducts() {
             </Stack>
 
             <Stack className="discount-date-wrapper" flexDirection={"row"}>
-              <strong>New Arrival</strong>
+              <strong>Best Products</strong>
             </Stack>
           </Stack>
         </Stack>
@@ -40,30 +39,18 @@ export default function NewArrivalProducts() {
           <Box
             className="left-img"
             sx={{
-              backgroundImage: "url(/img/ps-home.png)",
+              backgroundImage: "url(/productsImg/17ProMax.png)",
             }}
-          >
-            <Stack className="text-frame">
-              <span>PlayStation 5</span>
-              <p>Black and White version of the PS5 coming out on sale.</p>
-
-              <Box className="shop-now">Show Now</Box>
-            </Stack>
-          </Box>
+          ></Box>
         </Stack>
 
         <Stack className="arrival-right">
           <Stack className="arrival-box-a" flexDirection={"row"}>
-            <Stack className="box-text">
-              <span>Women’s Collections</span>
-              <p>Featured woman collections that give you another vibe.</p>
-
-              <Box className="shop-now">Shop Now</Box>
-            </Stack>
+            <Stack className="box-text"></Stack>
 
             <Stack
               sx={{
-                backgroundImage: "url(/img/women-home.png)",
+                backgroundImage: "url(/productsImg/17ProMax.png)",
                 backgroundSize: "cover",
               }}
               className="box-img"
@@ -79,32 +66,18 @@ export default function NewArrivalProducts() {
               <Stack
                 className="b-left"
                 sx={{
-                  backgroundImage: "url(/img/speaker-home.png) ",
+                  backgroundImage: "url(/productsImg/orange.png) ",
                 }}
-              >
-                <Box className="b-left-text">
-                  <span>Speakers</span>
-                  <p>Amazon wireless speakers</p>
-
-                  <Box className="b-btn">Shop Now</Box>
-                </Box>
-              </Stack>
+              ></Stack>
             </Stack>
 
             <Stack className="b-wrapper">
               <Stack
                 className="b-left"
                 sx={{
-                  backgroundImage: "url(/img/speaker-home.png) ",
+                  backgroundImage: "url(/productsImg/17Silver.png) ",
                 }}
-              >
-                <Box className="b-left-text">
-                  <span>Speakers</span>
-                  <p>Amazon wireless speakers</p>
-
-                  <Box className="b-btn">Shop Now</Box>
-                </Box>
-              </Stack>
+              ></Stack>
             </Stack>
           </Stack>
         </Stack>
