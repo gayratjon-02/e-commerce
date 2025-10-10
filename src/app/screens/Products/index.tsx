@@ -129,7 +129,7 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
     <div className="products-page">
       <Switch>
         <Route path={`${path}/:productId`}>
-          <Detail />
+          <Detail onAdd={onAdd} />
         </Route>
 
         <Route exact path={path}>

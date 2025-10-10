@@ -17,6 +17,7 @@ import { retrieveChosenProducts } from "./selector";
 import ProductService from "../../services/ProductService";
 import { useDispatch, useSelector } from "react-redux";
 import { serverApi } from "../../../lib/config";
+import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SELECTOR **/
 const chosenProductRetriever = createSelector(
@@ -24,11 +25,31 @@ const chosenProductRetriever = createSelector(
   (chosenProduct) => ({ chosenProduct })
 );
 
-export default function Detail() {
+export type ProductsPageProps = {
+  onAdd: (item: CartItem) => void;
+};
+
+export default function Detail({ onAdd }: ProductsPageProps) {
   const { productId } = useParams<{ productId: string }>();
   const dispatch = useDispatch();
-
   const { chosenProduct } = useSelector(chosenProductRetriever);
+
+  /** HANDLERs **/
+
+  const handleAddToBasket = () => {
+    if (!chosenProduct) return;
+
+    const firstImage =
+      images.length > 0 ? images[0] : "/icons/shopping-bag.svg";
+
+    onAdd({
+      _id: chosenProduct._id,
+      name: chosenProduct.productName,
+      price: chosenProduct.productPrice,
+      image: firstImage,
+      quantity,
+    });
+  };
 
   // Asosiy katta rasm uchun indeks (default: 0)
   const [activeImgIdx, setActiveImgIdx] = useState<number>(0);
@@ -156,10 +177,20 @@ export default function Detail() {
               </Box>
             </Stack>
 
-            <Stack className="price-desc">
-              <Box className="detail-price">${chosenProduct.productPrice}</Box>
-              <Box className="detail-des">{chosenProduct.productDesc}</Box>
+            <Stack
+              className="price-desc"
+              flexDirection={"row"}
+              justifyContent={"space-between"}
+            >
+              <span className="detail-price">
+                Price: ${chosenProduct.productPrice}
+              </span>
+
+              <span className="detail-price">
+                Left only: {chosenProduct.productLeftCount}
+              </span>
             </Stack>
+            <Box className="detail-des">{chosenProduct.productDesc}</Box>
 
             <Box className="divider-detail" mt={4}>
               <Divider width="2" height="1" bg="#d9d9d9" />
@@ -258,8 +289,9 @@ export default function Detail() {
                   height: 36,
                   "&:hover": { backgroundColor: "#b71c1c" },
                 }}
+                onClick={handleAddToBasket}
               >
-                Buy Now
+                Add to Cart
               </Button>
 
               {/* Heart icon */}
