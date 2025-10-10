@@ -14,12 +14,12 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { NavLink, useHistory } from "react-router-dom";
-import { createSelector, Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
 import { retrieveMixedProducts } from "./selector";
 import { CartItem } from "../../../lib/types/search";
 import { useDispatch, useSelector } from "react-redux";
 import { serverApi } from "../../../lib/config";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { setMixedProducts } from "./slice";
@@ -29,10 +29,6 @@ const mixedProductsRetriever = createSelector(
   retrieveMixedProducts,
   (mixedProducts) => mixedProducts
 );
-// === REDUX DISPATCH HELPER ===
-const actionDispatch = (dispatch: Dispatch) => ({
-  setMixedProducts: (data: any) => dispatch(setMixedProducts(data)),
-});
 
 interface FlashSalesProps {
   onAdd: (item: CartItem) => void;
@@ -41,7 +37,7 @@ interface FlashSalesProps {
 export default function ExploreProducts(props: FlashSalesProps) {
   const { onAdd } = props;
   const history = useHistory();
-  const { setMixedProducts } = actionDispatch(useDispatch());
+  const dispatch = useDispatch();
   const mixedProducts = useSelector(mixedProductsRetriever);
 
   const chooseProductHandler = (id: string) => {
@@ -49,32 +45,100 @@ export default function ExploreProducts(props: FlashSalesProps) {
   };
 
   useEffect(() => {
+    // 🔒 React 18 StrictMode dev-da effect 2 marta ishlashini bloklaymiz
+    const ranRef = { current: false } as { current: boolean };
+    // Agar siz StrictMode’dasiz va effect ikki marta ishlayotgan bo‘lsa, quyidagi refni component scope’da saqlang:
+    // const ranRef = useRef(false);
+    // va pastda ranRef.current bilan tekshiring.
+
+    if ((ranRef as any).current) return;
+    (ranRef as any).current = true;
+
     const categories = Object.values(ProductCollection);
     const product = new ProductService();
-    const randomCategories = Array.from(
-      { length: 8 },
-      () => categories[Math.floor(Math.random() * categories.length)]
-    );
+    let isActive = true; // unmount bo‘lsa, state set qilmaymiz
 
-    //  fetch each
+    // ——— Helpers ———
+    const shuffle = <T,>(arr: T[]): T[] => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
 
-    Promise.all(
-      randomCategories.map((cat) =>
-        product.getProducts({
-          page: 1,
-          limit: 1, // har kategoriyadan 1 ta
-          order: "createdAt",
-          productCollection: cat,
-          search: "",
-        })
-      )
-    )
-      .then((data) => {
-        const mixed = data.flatMap((r) => r[0] || []);
-        setMixedProducts(mixed);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    const sampleUnique = <T,>(arr: T[], n: number): T[] => {
+      const uniq = Array.from(new Set(arr));
+      return shuffle(uniq).slice(0, n);
+    };
+
+    const fetchExactly8 = async () => {
+      try {
+        // 1) Random 4 ta kategoriya tanlaymiz
+        const pickedCategories = sampleUnique(
+          categories,
+          Math.min(4, categories.length)
+        );
+
+        // 2) Har bir kategoriyadan 2 tadan product
+        const perCategoryResponses = await Promise.all(
+          pickedCategories.map((cat) =>
+            product.getProducts({
+              page: 1,
+              limit: 2,
+              order: "createdAt",
+              productCollection: cat,
+              search: "",
+            })
+          )
+        );
+
+        // 3) Flatten + dublikatlarni yo‘qotish
+        const allFetched = perCategoryResponses.flat().filter(Boolean);
+        const byId = new Map<string, any>();
+        for (const p of allFetched) {
+          if (p && p._id && !byId.has(p._id)) byId.set(p._id, p);
+        }
+        let unique: any[] = Array.from(byId.values());
+
+        // 4) Agar 8 tadan kam bo‘lsa — umumiy bazadan to‘ldiramiz
+        if (unique.length < 8) {
+          const need = 8 - unique.length;
+          const filler = await product.getProducts({
+            page: 1,
+            limit: need * 3, // yetarli bo‘lishi uchun biroz ko‘proq
+            order: "createdAt",
+            search: "",
+          });
+
+          for (const p of filler) {
+            if (p && p._id && !byId.has(p._id)) {
+              byId.set(p._id, p);
+              unique.push(p);
+              if (unique.length >= 8) break;
+            }
+          }
+        }
+
+        // 5) Tasodifiy tartib + aniq 8 ta
+        unique = shuffle(unique).slice(0, 8);
+
+        if (isActive) {
+          dispatch(setMixedProducts(unique));
+        }
+      } catch (error) {
+        console.error(" Error fetching random products:", error);
+        if (isActive) dispatch(setMixedProducts([]));
+      }
+    };
+
+    fetchExactly8();
+
+    return () => {
+      isActive = false; // cleanup
+    };
+  }, [dispatch]); // ❗ qayta renderda fetch bo‘lmasligi uchun faqat dispatch
 
   return (
     <Stack className="explore-products-main">
@@ -116,13 +180,15 @@ export default function ExploreProducts(props: FlashSalesProps) {
         </Stack>
       </Stack>
 
-      {/* Test */}
       <div className="explore-products-wrapper">
         <Stack
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 3,
+            justifyItems: "start",
+          }}
           className="products-wrapper"
-          flexDirection="row"
-          flexWrap="wrap"
-          justifyContent="center"
           gap={3}
         >
           {mixedProducts.length > 0 ? (
@@ -137,17 +203,14 @@ export default function ExploreProducts(props: FlashSalesProps) {
                   className="product-box-main"
                   onClick={() => chooseProductHandler(ele._id)}
                 >
-                  {/* DISCOUNT */}
                   <span className="discount-percentage">-40%</span>
 
-                  {/* IMAGE */}
                   <img
                     className="product-images"
                     src={imagePath}
                     alt={ele.productName}
                   />
 
-                  {/* LIKE + VIEW */}
                   <Stack
                     className="like-wiew"
                     flexDirection={"column"}
@@ -178,7 +241,6 @@ export default function ExploreProducts(props: FlashSalesProps) {
                     </Badge>
                   </Stack>
 
-                  {/* PRODUCT NAME */}
                   <Typography
                     variant="h6"
                     component="h2"
@@ -187,7 +249,6 @@ export default function ExploreProducts(props: FlashSalesProps) {
                     {ele.productName}
                   </Typography>
 
-                  {/* PRICE + BUTTON */}
                   <Stack
                     className="product-price"
                     flexDirection="row"

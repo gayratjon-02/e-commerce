@@ -1,5 +1,6 @@
 import { Box, Button, Stack } from "@mui/material";
 import { useCountdown } from "./useCountdown";
+import { NavLink } from "react-router-dom";
 
 export default function Advertaisment() {
   const [days, hours, minutes, seconds] = useCountdown("2025-09-25T23:59:59");
@@ -8,7 +9,7 @@ export default function Advertaisment() {
     <Stack className="advertaisment-main">
       <Stack className="advertaisment-wrapper">
         <span>Categories</span>
-        <p>Enhance Your Music Experience</p>
+        <p>Buy the Magichromatic </p>
 
         <Stack
           className="adv-time"
@@ -53,7 +54,9 @@ export default function Advertaisment() {
           </Stack>
         </Stack>
 
-        <Box className="buy-now-btn">Buy Now !</Box>
+        <NavLink to={"/products"} className="buy-now-btn">
+          Buy Now !
+        </NavLink>
 
         <img
           className="img-box"
