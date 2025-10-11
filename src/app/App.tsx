@@ -2,17 +2,13 @@ import React, { useState } from "react";
 // import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
 import HomePage from "./screens/HomePage";
-import About from "./screens/About";
 import Account from "./screens/Account";
 import Cart from "./screens/Cart";
-import Checkout from "./screens/Checkout";
-import Contact from "./screens/Contact";
 import ErrorPage from "./screens/ErrorPage";
 import Login from "./screens/Login";
 import ProductDetails from "./screens/ProductDetails";
 import Signup from "./screens/Signup";
 import HomeNavbar from "./components/headers/HomeNavbar";
-import Wishlist from "./screens/Wishlist";
 
 import OtherNavbar from "./components/headers/OtherNavbar";
 import Footer from "./components/footer";
@@ -20,11 +16,11 @@ import Footer from "./components/footer";
 import ProductsPage from "./screens/Products";
 import { CartItem } from "../lib/types/search";
 import useBasket from "./hooks/useBasket";
+import { useGlobals } from "./hooks/useGlobals";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
 import "../css/products.css";
-import { useGlobals } from "./hooks/useGlobals";
 
 function App() {
   const location = useLocation();
@@ -62,14 +58,6 @@ function App() {
           />
         </Route>
 
-        <Route path="/about">
-          <About />
-        </Route>
-
-        <Route path="/contact">
-          <Contact />
-        </Route>
-
         <Route path="/login">
           <Login />
         </Route>
@@ -78,13 +66,6 @@ function App() {
           <Signup />
         </Route>
 
-        <Route path="/wishlist">
-          <Wishlist />
-        </Route>
-
-        <Route path="/checkout">
-          <Checkout />
-        </Route>
         <Route path="/account">
           <Account />
         </Route>

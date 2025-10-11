@@ -52,7 +52,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
               50%!
             </Box>
             <Box>
-              <NavLink to={"/"} className="showNow-btn">
+              <NavLink to={"/products"} className="showNow-btn">
                 ShopNow
               </NavLink>
             </Box>
@@ -89,8 +89,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <NavLink to={"/products"} activeClassName="underline">
               Products
             </NavLink>
-            <NavLink to={"/about"} activeClassName="underline">
-              About
+            <NavLink to={"/login"} activeClassName="underline">
+              Login
             </NavLink>
 
             {/* 🔹 Login bo‘lgan foydalanuvchi uchun “Orders”, bo‘lmasa “Sign Up” */}
