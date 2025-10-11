@@ -1,27 +1,20 @@
 import {
-  Badge,
   Box,
-  Button,
   Container,
-  InputLabel,
+  FormControl,
   MenuItem,
-  Popover,
   Select,
   SelectChangeEvent,
   Stack,
-  TextField,
-  Typography,
 } from "@mui/material";
-import { FormControl } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import UserMenu from "./avatar";
 import Basket from "./Basket";
+import UserMenu from "./avatar";
 import { CartItem } from "../../../lib/types/search";
+import { useGlobals } from "../../hooks/useGlobals"; // ✅ qo‘shildi
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
@@ -32,16 +25,21 @@ interface HomeNavbarProps {
 }
 
 export default function HomeNavbar(props: HomeNavbarProps) {
-  const authMember = true;
-  const [language, setLanguage] = useState("en");
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
+
+  // ✅ Context orqali global foydalanuvchi holati
+  const { authMember } = useGlobals();
+
+  const [language, setLanguage] = useState("en");
 
   const handleChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
   };
+
   return (
     <div className="home-navbar">
       <Container className="navbar-container">
+        {/* 🔹 Yuqori promo banner */}
         <Stack
           className="navbar-wrapper"
           flexDirection={"row"}
@@ -59,6 +57,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
               </NavLink>
             </Box>
           </Stack>
+
+          {/* 🔹 Language selector */}
           <Box className="lang-change">
             <FormControl className="ll" fullWidth variant="standard">
               <Select
@@ -75,10 +75,13 @@ export default function HomeNavbar(props: HomeNavbarProps) {
           </Box>
         </Stack>
 
+        {/* 🔹 Pastki navbar */}
         <Stack className="navbar-bott-wrapper">
           <Box className="nav-logo">
             <img src="/icons/Exclusive-logo.svg" alt="logo" />
           </Box>
+
+          {/* 🔹 Navigatsiya linklari */}
           <Stack className="nav-links" flexDirection={"row"}>
             <NavLink exact to="/" activeClassName="underline">
               Home
@@ -89,16 +92,26 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <NavLink to={"/about"} activeClassName="underline">
               About
             </NavLink>
-            <NavLink to={"/signup"} activeClassName="underline">
-              Sign Up
-            </NavLink>
+
+            {/* 🔹 Login bo‘lgan foydalanuvchi uchun “Orders”, bo‘lmasa “Sign Up” */}
+            {authMember ? (
+              <NavLink to={"/orders"} activeClassName="underline">
+                Orders
+              </NavLink>
+            ) : (
+              <NavLink to={"/signup"} activeClassName="underline">
+                Sign Up
+              </NavLink>
+            )}
           </Stack>
 
+          {/* 🔹 Qidiruv maydoni */}
           <Box className="nav-search">
             <input type="text" placeholder="What are you looking for?" />
             <SearchIcon />
           </Box>
 
+          {/* 🔹 Ikkonlar (like, basket, user menu) */}
           <Stack
             className="nav-dashboard"
             flexDirection={"row"}
@@ -117,11 +130,13 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                 onDeleteAll={onDeleteAll}
               />
             </Box>
-            {authMember ? (
-              <Box className={"hover-line"}>
+
+            {/* 🔹 Agar user login bo‘lgan bo‘lsa, avatar menyu chiqadi */}
+            {authMember && (
+              <Box className="hover-line">
                 <UserMenu />
               </Box>
-            ) : null}
+            )}
           </Stack>
         </Stack>
       </Container>
