@@ -1,3 +1,484 @@
-export default function Account() {
-    return <div>Account Page</div>;
-  }
+import * as React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Container,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  alpha,
+  useTheme,
+  Link as MUILink,
+} from "@mui/material";
+import { NavLink } from "react-router-dom";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import SearchIcon from "@mui/icons-material/Search";
+// optional: auth name agar bor bo‘lsa
+// import { useGlobals } from "../../hooks/useGlobals";
+
+function SideLink({
+  to,
+  icon,
+  label,
+  active = false,
+}: {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) {
+  return (
+    <NavLink to={to} style={{ textDecoration: "none" }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1.5}
+        sx={(t) => ({
+          px: 1.25,
+          py: 1,
+          borderRadius: 2,
+          color: active ? t.palette.primary.main : t.palette.text.secondary,
+          bgcolor: active
+            ? alpha(t.palette.primary.main, 0.08)
+            : alpha(t.palette.common.white, 0.06),
+          transition: "all .2s ease",
+          "&:hover": {
+            transform: "translateY(-1px)",
+            bgcolor: active
+              ? alpha(t.palette.primary.main, 0.14)
+              : alpha(t.palette.text.primary, 0.06),
+          },
+        })}
+      >
+        <Box sx={{ display: "grid", placeItems: "center" }}>{icon}</Box>
+        <Typography fontSize={14} fontWeight={600}>
+          {label}
+        </Typography>
+      </Stack>
+    </NavLink>
+  );
+}
+
+function SectionCard({
+  children,
+  title,
+}: {
+  children: React.ReactNode;
+  title: string;
+}) {
+  return (
+    <Box
+      sx={(t) => ({
+        p: { xs: 2.5, sm: 3 },
+        borderRadius: 3,
+        bgcolor: alpha(t.palette.background.paper, 0.7),
+        backdropFilter: "blur(10px)",
+        border: `1px solid ${alpha(t.palette.divider, 0.4)}`,
+        boxShadow:
+          "0 10px 25px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.06)",
+      })}
+    >
+      <Typography
+        variant="h6"
+        fontWeight={800}
+        sx={(t) => ({
+          mb: 2.5,
+          letterSpacing: 0.2,
+          color: t.palette.text.primary,
+        })}
+      >
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
+}
+
+export default function AccountScreen() {
+  const t = useTheme();
+  // const { authMember } = useGlobals();
+  const fullName = "Md Rimel"; // authMember?.memberNick yoki first/lastName bilan almashtir
+  const email = "rimel111@gmail.com";
+
+  return (
+    <Box
+      sx={{
+        background:
+          "linear-gradient(180deg, #f6f7fb 0%, #f4f6fa 40%, #f9fafc 100%)",
+      }}
+    >
+      <Container sx={{ py: { xs: 3, md: 6 } }}>
+        {/* Top line: breadcrumb + welcome */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems={{ xs: "flex-start", sm: "center" }}
+          spacing={2}
+          sx={{ mb: 3 }}
+        >
+          <Stack direction="row" spacing={1.25} alignItems="center">
+            <HomeOutlinedIcon sx={{ fontSize: 18, color: "text.secondary" }} />
+            <Typography variant="body2" color="text.secondary">
+              Home
+            </Typography>
+            <Box
+              sx={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                bgcolor: "divider",
+                mx: 0.5,
+              }}
+            />
+            <Typography variant="body2" fontWeight={700}>
+              My Account
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" spacing={1.25} alignItems="center">
+            <Typography variant="body2" color="text.secondary">
+              Welcome!
+            </Typography>
+            <Chip
+              label={fullName}
+              size="small"
+              sx={{
+                fontWeight: 700,
+                bgcolor: alpha(t.palette.primary.main, 0.08),
+                color: t.palette.primary.main,
+              }}
+            />
+          </Stack>
+        </Stack>
+
+        <Stack direction={{ xs: "column", lg: "row" }} spacing={3}>
+          {/* ============== LEFT: Sidebar ============== */}
+          <Box
+            sx={{
+              width: { xs: "100%", lg: 300 },
+              position: "relative",
+              borderRadius: 3,
+              p: 2.25,
+              background:
+                "linear-gradient(180deg, rgba(219,68,68,0.12) 0%, rgba(255,255,255,0.65) 60%)",
+              border: `1px solid ${alpha(t.palette.primary.main, 0.2)}`,
+              boxShadow: "0 12px 30px rgba(219,68,68,.08)",
+              overflow: "hidden",
+            }}
+          >
+            {/* Avatar & quick search */}
+            <Stack
+              direction="row"
+              spacing={1.5}
+              alignItems="center"
+              sx={{ mb: 2 }}
+            >
+              <Avatar
+                sx={{
+                  width: 46,
+                  height: 46,
+                  bgcolor: t.palette.primary.main,
+                  boxShadow: "0 8px 18px rgba(219,68,68,.25)",
+                }}
+              >
+                <PersonOutlineIcon />
+              </Avatar>
+              <Box>
+                <Typography fontWeight={800}>{fullName}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {email}
+                </Typography>
+              </Box>
+            </Stack>
+
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Search settings"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                mb: 2.25,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 2,
+                  bgcolor: alpha("#fff", 0.8),
+                },
+              }}
+            />
+
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.secondary",
+                letterSpacing: 1,
+                mb: 1,
+                display: "block",
+              }}
+            >
+              Manage My Account
+            </Typography>
+            <Stack spacing={1}>
+              <SideLink
+                to="/account/profile"
+                icon={<PersonOutlineIcon />}
+                label="My Profile"
+                active
+              />
+              <SideLink
+                to="/account/address"
+                icon={<LocationOnOutlinedIcon />}
+                label="Address Book"
+              />
+              <SideLink
+                to="/account/payment"
+                icon={<CreditCardOutlinedIcon />}
+                label="Payment Options"
+              />
+            </Stack>
+
+            <Divider sx={{ my: 2 }} />
+
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.secondary",
+                letterSpacing: 1,
+                mb: 1,
+                display: "block",
+              }}
+            >
+              My Orders
+            </Typography>
+            <Stack spacing={1}>
+              <SideLink
+                to="/orders"
+                icon={<AssignmentOutlinedIcon />}
+                label="Orders"
+              />
+              <SideLink
+                to="/account/returns"
+                icon={<AutorenewOutlinedIcon />}
+                label="Returns"
+              />
+              <SideLink
+                to="/account/cancellations"
+                icon={<AssignmentOutlinedIcon />}
+                label="Cancellations"
+              />
+            </Stack>
+
+            <Divider sx={{ my: 2 }} />
+
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.secondary",
+                letterSpacing: 1,
+                mb: 1,
+                display: "block",
+              }}
+            >
+              My Wishlist
+            </Typography>
+            <Stack spacing={1}>
+              <SideLink
+                to="/wishlist"
+                icon={<FavoriteBorderOutlinedIcon />}
+                label="Wishlist"
+              />
+            </Stack>
+
+            <Divider sx={{ my: 2 }} />
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              <LogoutOutlinedIcon fontSize="small" color="error" />
+              <MUILink
+                component={NavLink}
+                to="#"
+                underline="hover"
+                color="error.main"
+                fontWeight={700}
+              >
+                Logout
+              </MUILink>
+            </Stack>
+          </Box>
+
+          {/* ============== RIGHT: Content ============== */}
+          <Stack flex={1} spacing={3}>
+            {/* Profile card */}
+            <SectionCard title="Edit Your Profile">
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                sx={{ mb: 2 }}
+              >
+                <TextField label="First Name" fullWidth defaultValue="Md" />
+                <TextField label="Last Name" fullWidth defaultValue="Rimel" />
+              </Stack>
+
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                sx={{ mb: 3 }}
+              >
+                <TextField
+                  label="Email"
+                  type="email"
+                  fullWidth
+                  defaultValue={email}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <MailOutlineIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  label="Address"
+                  fullWidth
+                  defaultValue="Kingston, 5236, United States"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LocationOnOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Stack>
+
+              <Divider sx={{ mb: 3 }} />
+              <Typography fontWeight={700} sx={{ mb: 1 }}>
+                Password Changes
+              </Typography>
+
+              <Stack spacing={2} sx={{ mb: 3 }}>
+                <TextField
+                  label="Current Password"
+                  type="password"
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField label="New Password" type="password" fullWidth />
+                <TextField
+                  label="Confirm New Password"
+                  type="password"
+                  fullWidth
+                />
+              </Stack>
+
+              <Stack direction="row" justifyContent="flex-end" spacing={1.5}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: 2,
+                    px: 2.5,
+                    borderColor: alpha(t.palette.text.primary, 0.2),
+                    "&:hover": { borderColor: t.palette.text.primary },
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: 2,
+                    px: 2.5,
+                    bgcolor: t.palette.primary.main,
+                    boxShadow: "0 10px 18px rgba(219,68,68,.25)",
+                    "&:hover": { bgcolor: "#c93737" },
+                  }}
+                >
+                  Save Changes
+                </Button>
+              </Stack>
+            </SectionCard>
+
+            {/* Optional: Quick stats / helpful card */}
+            <SectionCard title="Account Highlights">
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    p: 2,
+                    borderRadius: 2,
+                    border: `1px dashed ${alpha(t.palette.primary.main, 0.4)}`,
+                    bgcolor: alpha(t.palette.primary.main, 0.04),
+                  }}
+                >
+                  <Typography fontWeight={700} fontSize={18}>
+                    6
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Orders placed
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    flex: 1,
+                    p: 2,
+                    borderRadius: 2,
+                    border: `1px dashed ${alpha(t.palette.success.main, 0.4)}`,
+                    bgcolor: alpha(t.palette.success.main, 0.04),
+                  }}
+                >
+                  <Typography fontWeight={700} fontSize={18}>
+                    2
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    In delivery
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    flex: 1,
+                    p: 2,
+                    borderRadius: 2,
+                    border: `1px dashed ${alpha(t.palette.warning.main, 0.4)}`,
+                    bgcolor: alpha(t.palette.warning.main, 0.05),
+                  }}
+                >
+                  <Typography fontWeight={700} fontSize={18}>
+                    4
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Wishlist items
+                  </Typography>
+                </Box>
+              </Stack>
+            </SectionCard>
+          </Stack>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
