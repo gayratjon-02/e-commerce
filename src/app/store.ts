@@ -8,6 +8,7 @@ import HomePageReducer from "./screens/HomePage/slice";
 import reduxLogger from "redux-logger";
 import ProductsPageReducer from "./screens/Products/slice";
 import OrdersPageReducer from "./screens/Cart/slice";
+import AccountPageReducer from "./screens/Account/slice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -17,6 +18,7 @@ export const store = configureStore({
     homePage: HomePageReducer,
     productsPage: ProductsPageReducer,
     ordersPage: OrdersPageReducer,
+    accountPage: AccountPageReducer,
   },
 });
 

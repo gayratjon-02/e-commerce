@@ -34,6 +34,10 @@ export default function AccountMenu() {
     history.push("/cart");
   };
 
+  const pushToAccount = () => {
+    history.push("/account");
+  };
+
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -93,7 +97,12 @@ export default function AccountMenu() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            pushToAccount();
+          }}
+        >
           <ListItemIcon sx={{ color: "white" }}>
             <AccountCircleOutlinedIcon />
           </ListItemIcon>

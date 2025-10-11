@@ -8,6 +8,7 @@ export interface AppRootState {
   homePage: HomePageState;
   productsPage: ProductsPageState;
   ordersPage: OrdersPageState;
+  accountPage: AccountPageState;
 }
 
 /** HOMEPAGE **/
@@ -30,4 +31,10 @@ export interface OrdersPageState {
   pausedOrders: Order[];
   processOrders: Order[];
   finishedOrders: Order[];
+}
+
+/** ACCOUNT PAGE **/
+
+export interface AccountPageState {
+  memberData: Member | null;
 }

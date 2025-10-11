@@ -28,7 +28,14 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 // optional: auth name agar bor bo‘lsa
-// import { useGlobals } from "../../hooks/useGlobals";
+import { useGlobals } from "../../hooks/useGlobals";
+import { createSelector, Dispatch } from "@reduxjs/toolkit";
+import { retrieveMember } from "./selector";
+import { Member } from "../../../lib/types/member";
+import { setMember } from "./slice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import MemberService from "../../services/MemberService";
 
 function SideLink({
   to,
@@ -108,7 +115,31 @@ function SectionCard({
   );
 }
 
+/**  REDUX SLICE DISPATCH **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setMember: (data: Member) => dispatch(setMember(data)),
+});
+
+const MemberRetriever = createSelector(retrieveMember, (AccountPage) => ({
+  AccountPage,
+}));
+
 export default function AccountScreen() {
+  const { AccountPage } = useSelector(MemberRetriever);
+
+  const { setMember } = actionDispatch(useDispatch());
+
+  // UseEffect
+
+  useEffect(() => {
+    const member = new MemberService();
+
+    member
+      .getMemberDetail()
+      .then((data) => setMember(data))
+      .catch((err) => console.log(err));
+  }, []);
+
   const t = useTheme();
   // const { authMember } = useGlobals();
   const fullName = "Md Rimel"; // authMember?.memberNick yoki first/lastName bilan almashtir

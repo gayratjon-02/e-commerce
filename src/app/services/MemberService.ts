@@ -39,6 +39,20 @@ class MemberService {
     }
   }
 
+  // update
+  public async getMemberDetail(): Promise<Member> {
+    try {
+      axios.defaults.withCredentials = true;
+      const url = this.path + "/member/detail";
+      const result = await axios.get(url);
+      console.log("getMemberDetail", result);
+      return result.data;
+    } catch (err) {
+      console.log("Error: getMemberDetail", err);
+      throw err;
+    }
+  }
+
   public async logout(): Promise<void> {
     try {
       const url = this.path + "/member/logout";
