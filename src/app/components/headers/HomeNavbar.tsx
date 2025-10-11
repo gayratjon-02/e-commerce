@@ -9,12 +9,20 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+
+/* i18n */
+import { useTranslation } from "react-i18next";
+import i18n from "../../../i18n";
+
+/* Shu papkadagi komponentlar (nom/katta-kichik harf aynan mos bo‘lsin!) */
 import Basket from "./Basket";
 import UserMenu from "./avatar";
+
+/* Turlar va global context */
 import { CartItem } from "../../../lib/types/search";
-import { useGlobals } from "../../hooks/useGlobals"; // ✅ qo‘shildi
+import { useGlobals } from "../../hooks/useGlobals";
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
@@ -27,19 +35,35 @@ interface HomeNavbarProps {
 export default function HomeNavbar(props: HomeNavbarProps) {
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
 
-  // ✅ Context orqali global foydalanuvchi holati
+  // i18n hook
+  const { t } = useTranslation();
+
+  // Global foydalanuvchi holati
   const { authMember } = useGlobals();
 
-  const [language, setLanguage] = useState("en");
+  // Til holati (i18n’dan boshlang‘ich qiymat)
+  const [language, setLanguage] = useState<string>(i18n.language || "en");
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value);
+  // i18n til o‘zgarsa, local state ham yangilansin
+  useEffect(() => {
+    const handler = (lng: string) => setLanguage(lng);
+    i18n.on("languageChanged", handler);
+    return () => {
+      i18n.off("languageChanged", handler);
+    };
+  }, []);
+
+  const handleChange = (e: SelectChangeEvent) => {
+    const next = String(e.target.value);
+    i18n.changeLanguage(next);
+    localStorage.setItem("lng", next);
+    setLanguage(next);
   };
 
   return (
     <div className="home-navbar">
       <Container className="navbar-container">
-        {/* 🔹 Yuqori promo banner */}
+        {/* Yuqori promo banner (ixtiyoriy tarjima — hozircha o‘zgartirmadik) */}
         <Stack
           className="navbar-wrapper"
           flexDirection={"row"}
@@ -58,7 +82,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             </Box>
           </Stack>
 
-          {/* 🔹 Language selector */}
+          {/* Language selector */}
           <Box className="lang-change">
             <FormControl className="ll" fullWidth variant="standard">
               <Select
@@ -67,51 +91,51 @@ export default function HomeNavbar(props: HomeNavbarProps) {
                 onChange={handleChange}
               >
                 <MenuItem value="en">English</MenuItem>
-                <MenuItem value="uz">Uzbek</MenuItem>
-                <MenuItem value="ru">Russian</MenuItem>
-                <MenuItem value="ko">Korean</MenuItem>
+                <MenuItem value="ko">한국어</MenuItem>
+                <MenuItem value="uz">O‘zbekcha</MenuItem>
+                {/* Agar rus tili qo‘shmoqchi bo‘lsang keyin ru/common.json qo‘shamiz */}
               </Select>
             </FormControl>
           </Box>
         </Stack>
 
-        {/* 🔹 Pastki navbar */}
+        {/* Pastki navbar */}
         <Stack className="navbar-bott-wrapper">
           <Box className="nav-logo">
             <img src="/icons/Exclusive-logo.svg" alt="logo" />
           </Box>
 
-          {/* 🔹 Navigatsiya linklari */}
+          {/* Navigatsiya linklari */}
           <Stack className="nav-links" flexDirection={"row"}>
             <NavLink exact to="/" activeClassName="underline">
-              Home
+              {t("nav.home")}
             </NavLink>
             <NavLink to={"/products"} activeClassName="underline">
-              Products
+              {t("nav.products")}
             </NavLink>
             <NavLink to={"/login"} activeClassName="underline">
-              Login
+              {t("auth.login")}
             </NavLink>
 
-            {/* 🔹 Login bo‘lgan foydalanuvchi uchun “Orders”, bo‘lmasa “Sign Up” */}
+            {/* Login bo‘lgan foydalanuvchi uchun Cart/Orders, bo‘lmasa Sign Up */}
             {authMember ? (
               <NavLink to={"/cart"} activeClassName="underline">
-                Orders
+                {t("nav.cart")}
               </NavLink>
             ) : (
               <NavLink to={"/signup"} activeClassName="underline">
-                Sign Up
+                {t("auth.signup")}
               </NavLink>
             )}
           </Stack>
 
-          {/* 🔹 Qidiruv maydoni */}
+          {/* Qidiruv maydoni */}
           <Box className="nav-search">
-            <input type="text" placeholder="What are you looking for?" />
+            <input type="text" placeholder={t("nav.searchPlaceholder")} />
             <SearchIcon />
           </Box>
 
-          {/* 🔹 Ikkonlar (like, basket, user menu) */}
+          {/* Ikkonlar (like, basket, user menu) */}
           <Stack
             className="nav-dashboard"
             flexDirection={"row"}
@@ -131,7 +155,6 @@ export default function HomeNavbar(props: HomeNavbarProps) {
               />
             </Box>
 
-            {/* 🔹 Agar user login bo‘lgan bo‘lsa, avatar menyu chiqadi */}
             {authMember && (
               <Box className="hover-line">
                 <UserMenu />

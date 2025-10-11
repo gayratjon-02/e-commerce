@@ -2,7 +2,9 @@ import { Box, Button, Container, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Basket from "./Basket";
 
+import { useTranslation } from 'react-i18next';
 export default function OtherNavbar() {
+  const { t } = useTranslation();
   const authMember = null;
   return (
     <div className="other-navbar">
@@ -15,7 +17,7 @@ export default function OtherNavbar() {
           </Box>
           <Stack className="links">
             <Box className={"hover-line"}>
-              <NavLink to="/">Home</NavLink>
+              <NavLink to="/">{t('nav.home')}</NavLink>
             </Box>
 
             <Box className={"hover-line"}>
