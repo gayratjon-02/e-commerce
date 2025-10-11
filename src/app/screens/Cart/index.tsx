@@ -1,11 +1,17 @@
 import { Breadcrumbs, Button, Container, Stack, Table } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import CartTable from "./tableComponent";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector, Dispatch } from "@reduxjs/toolkit";
 import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
 import "../../../css/cart.css";
 import { Order } from "../../../lib/types/order";
+import { OrderInquiry } from "../../../lib/types/order";
+import { useEffect, useState } from "react";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import OrderService from "../../services/OrderService";
+import { retrievePausedOrders } from "./selector";
+import { CartItem } from "../../../lib/types/search";
 
 /**  REDUX SLICE DISPATCH **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -14,14 +20,58 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
 });
 
+const pausedOrdersRetriever = createSelector(
+  retrievePausedOrders,
+  (pausedOrders) => ({ pausedOrders })
+);
+
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
   console.info("You clicked a breadcrumb.");
 }
 
-export default function Cart() {
+interface ProductsPageProps {
+  onAdd: (item: CartItem) => void;
+  onRemove: (item: CartItem) => void;
+  onDelete: (item: CartItem) => void;
+  onDeleteAll: () => void;
+}
+
+export default function Cart({
+  onAdd,
+  onDelete,
+  onDeleteAll,
+  onRemove,
+}: ProductsPageProps) {
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+
+  const { pausedOrders } = useSelector(pausedOrdersRetriever);
+
+  const [orderInquiry, setPrderInquiry] = useState<OrderInquiry>({
+    page: 1,
+    limit: 5,
+    orderStatus: OrderStatus.PAUSE,
+  });
+
+  useEffect(() => {
+    const order = new OrderService();
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [orderInquiry]);
 
   return (
     <Container className="cart-container">
@@ -50,7 +100,12 @@ export default function Cart() {
         </Stack>
 
         <Stack className="cart-wrapper">
-          <CartTable />
+          <CartTable
+            onAdd={onAdd}
+            onRemove={onRemove}
+            onDelete={onDelete}
+            onDeleteAll={onDeleteAll}
+          />
 
           <Stack
             className="coupon-total"

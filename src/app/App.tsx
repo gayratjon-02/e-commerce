@@ -24,10 +24,15 @@ import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
 import "../css/products.css";
+import { useGlobals } from "./hooks/useGlobals";
 
 function App() {
   const location = useLocation();
+  const { authMember, setAuthMember } = useGlobals();
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = useBasket();
+  const [signupOpen, setSignupOpen] = useState<boolean>(false);
+  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   return (
     <>
@@ -84,7 +89,12 @@ function App() {
           <Account />
         </Route>
         <Route path="/cart">
-          <Cart />
+          <Cart
+            onAdd={onAdd}
+            onRemove={onRemove}
+            onDelete={onDelete}
+            onDeleteAll={onDeleteAll}
+          />
         </Route>
 
         <Route path={"/errorPage"}>

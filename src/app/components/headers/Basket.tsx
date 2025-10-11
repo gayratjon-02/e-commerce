@@ -7,7 +7,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
-import { serverApi } from "../../../lib/config";
+import { Messages, serverApi } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
+import OrderService from "../../services/OrderService";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
 
 interface BasketProps {
   cartItems: CartItem[];
@@ -18,7 +21,7 @@ interface BasketProps {
 }
 
 export default function Basket(props: BasketProps) {
-  const authMember = null;
+  const { authMember } = useGlobals();
   const history = useHistory();
 
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
@@ -34,8 +37,20 @@ export default function Basket(props: BasketProps) {
     setAnchorEl(null);
   };
 
-  const cartHandler = () => {
-    history.push("/cart");
+  const proccessOrderHandler = async () => {
+    try {
+      handleClose();
+      if (!authMember) throw new Error(Messages.error2);
+      const order = new OrderService();
+
+      await order.createOrder(cartItems);
+      onDeleteAll();
+
+      history.push("/cart");
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
   };
 
   return (
@@ -148,7 +163,7 @@ export default function Basket(props: BasketProps) {
             <Button
               startIcon={<ShoppingCartIcon />}
               variant={"contained"}
-              onClick={cartHandler}
+              onClick={proccessOrderHandler}
             >
               Order
             </Button>
