@@ -185,7 +185,7 @@ export default function AccountScreen() {
               Welcome!
             </Typography>
             <Chip
-              label={fullName}
+              label={AccountPage?.memberNick}
               size="small"
               sx={{
                 fontWeight: 700,
@@ -229,9 +229,11 @@ export default function AccountScreen() {
                 <PersonOutlineIcon />
               </Avatar>
               <Box>
-                <Typography fontWeight={800}>{fullName}</Typography>
+                <Typography fontWeight={800}>
+                  {AccountPage?.memberNick}
+                </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {email}
+                  {AccountPage?.memberPhone}
                 </Typography>
               </Box>
             </Stack>
@@ -363,8 +365,8 @@ export default function AccountScreen() {
                 spacing={2}
                 sx={{ mb: 2 }}
               >
-                <TextField label="First Name" fullWidth defaultValue="Md" />
-                <TextField label="Last Name" fullWidth defaultValue="Rimel" />
+                <TextField label={AccountPage?.memberNick} fullWidth />
+                <TextField label={AccountPage?.memberPhone} fullWidth />
               </Stack>
 
               <Stack
@@ -376,7 +378,7 @@ export default function AccountScreen() {
                   label="Email"
                   type="email"
                   fullWidth
-                  defaultValue={email}
+                  defaultValue="exaplme@mail.com"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -386,9 +388,9 @@ export default function AccountScreen() {
                   }}
                 />
                 <TextField
-                  label="Address"
+                  label={AccountPage?.memberAddress}
                   fullWidth
-                  defaultValue="Kingston, 5236, United States"
+                  defaultValue="Your Address"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
