@@ -17,13 +17,13 @@ import Wishlist from "./screens/Wishlist";
 import OtherNavbar from "./components/headers/OtherNavbar";
 import Footer from "./components/footer";
 
+import ProductsPage from "./screens/Products";
+import { CartItem } from "../lib/types/search";
+import useBasket from "./hooks/useBasket";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
 import "../css/products.css";
-import ProductsPage from "./screens/Products";
-import { CartItem } from "../lib/types/search";
-import useBasket from "./hooks/useBasket";
 
 function App() {
   const location = useLocation();
@@ -67,10 +67,6 @@ function App() {
 
         <Route path="/login">
           <Login />
-        </Route>
-
-        <Route path="/productDetails">
-          <ProductDetails />
         </Route>
 
         <Route path="/signup">

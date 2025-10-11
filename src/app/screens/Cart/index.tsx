@@ -1,7 +1,18 @@
 import { Breadcrumbs, Button, Container, Stack, Table } from "@mui/material";
-import "../../../css/cart.css";
 import { NavLink } from "react-router-dom";
 import CartTable from "./tableComponent";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
+import "../../../css/cart.css";
+import { Order } from "../../../lib/types/order";
+
+/**  REDUX SLICE DISPATCH **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+});
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -9,6 +20,9 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 }
 
 export default function Cart() {
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
+
   return (
     <Container className="cart-container">
       <Stack className="cart-main">

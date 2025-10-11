@@ -20,6 +20,7 @@ interface BasketProps {
 export default function Basket(props: BasketProps) {
   const authMember = null;
   const history = useHistory();
+
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -31,6 +32,10 @@ export default function Basket(props: BasketProps) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const cartHandler = () => {
+    history.push("/cart");
   };
 
   return (
@@ -127,12 +132,24 @@ export default function Basket(props: BasketProps) {
                     </Box>
                   </Box>
                 );
-              })}
+              })}{" "}
+              //
             </Box>
           </Box>
           <Box className={"basket-order"}>
-            <span className={"price"}>Total: $100 (98 +2)</span>
-            <Button startIcon={<ShoppingCartIcon />} variant={"contained"}>
+            {cartItems.map((item) => {
+              return (
+                <span className={"price"}>
+                  Total: {item.price * item.quantity}
+                </span>
+              );
+            })}
+
+            <Button
+              startIcon={<ShoppingCartIcon />}
+              variant={"contained"}
+              onClick={cartHandler}
+            >
               Order
             </Button>
           </Box>
