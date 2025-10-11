@@ -113,9 +113,13 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <NavLink to={"/products"} activeClassName="underline">
               {t("nav.products")}
             </NavLink>
-            <NavLink to={"/login"} activeClassName="underline">
-              {t("auth.login")}
-            </NavLink>
+            {authMember ? (
+              ""
+            ) : (
+              <NavLink to={"/login"} activeClassName="underline">
+                {t("auth.login")}
+              </NavLink>
+            )}
 
             {/* Login bo‘lgan foydalanuvchi uchun Cart/Orders, bo‘lmasa Sign Up */}
             {authMember ? (

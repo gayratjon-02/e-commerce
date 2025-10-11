@@ -89,7 +89,7 @@ export default function Login() {
 
             <Button className="signup-butt2" fullWidth>
               <img src="/icons/Icon-Google.png" alt="Google" />
-              <NavLink to="#">Sign up with Google</NavLink>
+              <NavLink to="https://devex.uz/com">Sign up with Google</NavLink>
             </Button>
 
             <Stack
