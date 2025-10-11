@@ -190,7 +190,9 @@ export default function Detail({ onAdd }: ProductsPageProps) {
                 Left only: {chosenProduct.productLeftCount}
               </span>
             </Stack>
-            <Box className="detail-des">{chosenProduct.productDesc}</Box>
+            <Box sx={{ marginTop: "10px" }} className="detail-des">
+              {chosenProduct.productDesc}
+            </Box>
 
             <Box className="divider-detail" mt={4}>
               <Divider width="2" height="1" bg="#d9d9d9" />

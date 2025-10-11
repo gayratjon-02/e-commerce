@@ -74,7 +74,6 @@ export default function CategoryList() {
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
-          onClick={() => handleCategoryClick(ProductCollection.CAMERA)}
         >
           <img
             width={"56px"}

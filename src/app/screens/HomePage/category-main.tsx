@@ -117,7 +117,7 @@ export default function CategoryMain() {
               </Box>
 
               <Stack className="catt-shop-btn" flexDirection={"row"}>
-                <NavLink to="" className={"catt-shopBtn"}>
+                <NavLink to="/products" className={"catt-shopBtn"}>
                   Shop Now
                 </NavLink>
                 <ChevronRightIcon sx={{ color: "white" }} />

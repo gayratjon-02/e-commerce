@@ -250,6 +250,7 @@
   .detail-img-box
   .detail-box-small
   .small-box {
+  background-color: white;
   width: 170px;
   height: 138px;
   transition: all 0.4s ease;
@@ -299,6 +300,7 @@
   .product-detail-box
   .detail-img-box
   .detail-box-big {
+  background-color: white;
   margin-left: 30px;
   width: 500px;
   height: 600px;
@@ -404,7 +406,7 @@
   .detail-desc
   .price-desc
   .detail-des {
-  margin-top: 10px;
+  margin-top: 15px;
   color: #000;
   font-family: Poppins;
   font-size: 14px;
@@ -626,6 +628,7 @@
   width: 100%;
 }
 .main-middle .product-content-middle .products-wrapper .product-box-main {
+  background: white;
   position: relative;
   width: 240px;
   height: 350px;
@@ -764,14 +767,7 @@
   transform: scale(1.04); /* butun kartani kattalashtiradi */
   transition: transform 0.4s ease-in-out; /* sekinlik bilan */
 }
-.main-middle
-  .product-content-middle
-  .products-wrapper
-  .product-box-main:hover
-  img {
-  transform: scale(1.08); /* rasmni biroz kattalashtiradi */
-  transition: transform 0.5s ease-in-out;
-}
+
 .main-middle
   .product-content-middle
   .products-wrapper
@@ -841,6 +837,7 @@
   .detail-img-box
   .detail-box-small
   .small-box {
+  background: white;
   width: 170px;
   height: 138px;
   transition: all 0.4s ease;
@@ -886,6 +883,7 @@
   .product-detail-box
   .detail-img-box
   .detail-box-big {
+  background-color: white;
   margin-left: 30px;
   width: 500px;
   height: 600px;
@@ -902,7 +900,7 @@
   .detail-box-big
   .main-img-box
   .detail-big-img {
-  width: 336px;
+  width: 436px;
   height: 535px;
   transition: all 0.4s ease;
 }

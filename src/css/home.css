@@ -354,6 +354,7 @@
   .flash-sales-bottom
   .products-wrapper
   .product-box-main {
+  background: white;
   position: relative;
   width: 270px;
   height: 350px;
@@ -504,16 +505,7 @@
   transform: scale(1.04); /* butun kartani kattalashtiradi */
   transition: transform 0.4s ease-in-out; /* sekinlik bilan */
 }
-.flash-sales-main
-  .flash-sales-wrapper
-  .flash-sales-bottom
-  .products-wrapper
-  .product-box-main:hover
-  img {
-  transform: scale(1.08); /* rasmni biroz kattalashtiradi */
-  transition: transform 0.5s ease-in-out;
-}
-.flash-sales-main
+ash-sales-main
   .flash-sales-wrapper
   .flash-sales-bottom
   .products-wrapper
@@ -836,6 +828,8 @@
   height: 350px;
 }
 .best-selling-products-main .products-wrapper .product-box-main {
+  background: white;
+
   position: relative;
   width: 270px;
   height: 350px;
@@ -955,10 +949,7 @@
   transform: scale(1.04); /* butun kartani kattalashtiradi */
   transition: transform 0.4s ease-in-out; /* sekinlik bilan */
 }
-.best-selling-products-main .products-wrapper .product-box-main:hover img {
-  transform: scale(1.08); /* rasmni biroz kattalashtiradi */
-  transition: transform 0.5s ease-in-out;
-}
+
 .best-selling-products-main
   .products-wrapper
   .product-box-main:hover
@@ -1096,6 +1087,7 @@
   .explore-products-wrapper
   .products-wrapper
   .product-box-main {
+  background: white;
   position: relative;
   width: 270px;
   height: 350px;
@@ -1236,14 +1228,7 @@
   transform: scale(1.04); /* butun kartani kattalashtiradi */
   transition: transform 0.4s ease-in-out; /* sekinlik bilan */
 }
-.explore-products-main
-  .explore-products-wrapper
-  .products-wrapper
-  .product-box-main:hover
-  img {
-  transform: scale(1.08); /* rasmni biroz kattalashtiradi */
-  transition: transform 0.5s ease-in-out;
-}
+
 .explore-products-main
   .explore-products-wrapper
   .products-wrapper
