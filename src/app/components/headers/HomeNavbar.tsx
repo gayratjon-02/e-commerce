@@ -95,7 +95,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
             {/* 🔹 Login bo‘lgan foydalanuvchi uchun “Orders”, bo‘lmasa “Sign Up” */}
             {authMember ? (
-              <NavLink to={"/orders"} activeClassName="underline">
+              <NavLink to={"/cart"} activeClassName="underline">
                 Orders
               </NavLink>
             ) : (

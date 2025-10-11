@@ -22,17 +22,21 @@ import {
 } from "../../../lib/sweetAlert";
 import { Messages } from "../../../lib/config";
 import { useGlobals } from "../../hooks/useGlobals";
+import { useHistory } from "react-router-dom";
 
 export default function AccountMenu() {
   const { setAuthMember } = useGlobals();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const history = useHistory();
+  //** Handlers **/
+
+  const pushToCart = () => {
+    history.push("/cart");
+  };
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  //** Handlers **/
 
   const handleLogoutRequest = async () => {
     try {
@@ -96,7 +100,12 @@ export default function AccountMenu() {
           <Typography>Manage My Account</Typography>
         </MenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            pushToCart();
+          }}
+        >
           <ListItemIcon sx={{ color: "white" }}>
             <ShoppingBagOutlinedIcon />
           </ListItemIcon>
