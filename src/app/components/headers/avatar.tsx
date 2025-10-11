@@ -15,14 +15,37 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import MemberService from "../../services/MemberService";
+import {
+  sweetErrorHandling,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
+import { Messages } from "../../../lib/config";
+import { useGlobals } from "../../hooks/useGlobals";
 
 export default function AccountMenu() {
+  const { setAuthMember } = useGlobals();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  //** Handlers **/
+
+  const handleLogoutRequest = async () => {
+    try {
+      const member = new MemberService();
+      await member.logout();
+
+      await sweetTopSuccessAlert("success", 700);
+      setAuthMember(null);
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(Messages.error1);
+    }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -94,7 +117,12 @@ export default function AccountMenu() {
           <Typography>My Reviews</Typography>
         </MenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            handleLogoutRequest();
+          }}
+        >
           <ListItemIcon sx={{ color: "white" }}>
             <LogoutOutlinedIcon />
           </ListItemIcon>

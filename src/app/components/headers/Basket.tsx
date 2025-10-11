@@ -148,7 +148,6 @@ export default function Basket(props: BasketProps) {
                   </Box>
                 );
               })}{" "}
-              //
             </Box>
           </Box>
           <Box className={"basket-order"}>
