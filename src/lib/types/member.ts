@@ -32,11 +32,13 @@ export interface LoginInput {
   memberPassword: string;
 }
 
-export interface MemberUpdateInput {  
+export interface MemberUpdateInput {
   memberNick?: string;
   memberPhone?: string;
-  memberPassword?: string;
+  memberPassword?: string; // current password (faqat parol o‘zgartirishda)
+  memberNewPassword?: string; // yangi parol
+  memberConfirmPassword?: string; // tasdiq
   memberAddress?: string;
   memberDesc?: string;
-  memberImage?: string;
+  memberImage?: string | File; // rasm — File bo‘lishi ham mumkin
 }

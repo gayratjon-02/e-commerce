@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import {
   Avatar,
   Box,
@@ -6,7 +6,6 @@ import {
   Chip,
   Container,
   Divider,
-  IconButton,
   InputAdornment,
   Stack,
   TextField,
@@ -15,7 +14,7 @@ import {
   useTheme,
   Link as MUILink,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -27,15 +26,26 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-// optional: auth name agar bor bo‘lsa
-import { useGlobals } from "../../hooks/useGlobals";
+
 import { createSelector, Dispatch } from "@reduxjs/toolkit";
 import { retrieveMember } from "./selector";
-import { Member } from "../../../lib/types/member";
+import { Member, MemberUpdateInput } from "../../../lib/types/member";
 import { setMember } from "./slice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import MemberService from "../../services/MemberService";
+import {
+  sweetErrorHandling,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
+
+/**  REDUX SLICE DISPATCH **/
+const actionDispatch = (dispatch: Dispatch) => ({
+  setMember: (data: Member) => dispatch(setMember(data)),
+});
+
+const MemberRetriever = createSelector(retrieveMember, (AccountPage) => ({
+  AccountPage,
+}));
 
 function SideLink({
   to,
@@ -115,35 +125,111 @@ function SectionCard({
   );
 }
 
-/**  REDUX SLICE DISPATCH **/
-const actionDispatch = (dispatch: Dispatch) => ({
-  setMember: (data: Member) => dispatch(setMember(data)),
-});
-
-const MemberRetriever = createSelector(retrieveMember, (AccountPage) => ({
-  AccountPage,
-}));
-
 export default function AccountScreen() {
   const { AccountPage } = useSelector(MemberRetriever);
-
   const { setMember } = actionDispatch(useDispatch());
+  const t = useTheme();
+  const history = useHistory();
 
-  // UseEffect
+  const pushToHome = () => {
+    history.push("/");
+  };
 
+  // PROFILE + PASSWORD form state (controlled)
+  const [profileForm, setProfileForm] = React.useState<MemberUpdateInput>({
+    memberNick: "",
+    memberPhone: "",
+    memberAddress: "",
+    memberDesc: "",
+    memberImage: "",
+  });
+  const [passwordForm, setPasswordForm] = React.useState<MemberUpdateInput>({
+    memberPassword: "",
+    memberNewPassword: "",
+    memberConfirmPassword: "",
+  });
+
+  // 1) Ma'lumotni faqat **bir marta** olib kelamiz (loop bo'lmaydi)
   useEffect(() => {
-    const member = new MemberService();
-
-    member
+    const svc = new MemberService();
+    svc
       .getMemberDetail()
       .then((data) => setMember(data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch(console.log);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // <- bo'sh dependency
 
-  const t = useTheme();
-  // const { authMember } = useGlobals();
-  const fullName = "Md Rimel"; // authMember?.memberNick yoki first/lastName bilan almashtir
-  const email = "rimel111@gmail.com";
+  // 2) Redux'dan kelgan userni formga **bir marta** yozib qo'yamiz
+  const filledOnceRef = useRef(false);
+  useEffect(() => {
+    if (!AccountPage || filledOnceRef.current) return;
+    setProfileForm({
+      memberNick: AccountPage.memberNick ?? "",
+      memberPhone: AccountPage.memberPhone ?? "",
+      memberAddress: AccountPage.memberAddress ?? "",
+      memberDesc: AccountPage.memberDesc ?? "",
+      memberImage: AccountPage.memberImage ?? "",
+    });
+    filledOnceRef.current = true;
+  }, [AccountPage]);
+
+  // 3) Save — faqat to'ldirilgan fieldlarni yuboradi.
+  const handleSave = async () => {
+    try {
+      if (!profileForm.memberNick?.trim())
+        return sweetErrorHandling("Nickname required");
+      if (!profileForm.memberPhone?.trim())
+        return sweetErrorHandling("Phone required");
+
+      const needPwd =
+        !!passwordForm.memberPassword?.trim() &&
+        !!passwordForm.memberNewPassword?.trim() &&
+        !!passwordForm.memberConfirmPassword?.trim();
+
+      const payload: MemberUpdateInput = {
+        ...profileForm,
+        ...(needPwd
+          ? {
+              memberPassword: passwordForm.memberPassword,
+              memberNewPassword: passwordForm.memberNewPassword,
+              memberConfirmPassword: passwordForm.memberConfirmPassword,
+            }
+          : {}),
+      };
+
+      const svc = new MemberService();
+      const updated = await svc.updateMember(payload);
+
+      setMember(updated);
+      localStorage.setItem("memberData", JSON.stringify(updated));
+      sweetTopSuccessAlert("Password Updated");
+
+      setPasswordForm({
+        memberPassword: "",
+        memberNewPassword: "",
+        memberConfirmPassword: "",
+      });
+    } catch (err: any) {
+      sweetErrorHandling(err?.response?.data?.message);
+    }
+  };
+
+  // profile inputlar uchun
+  const onProfileInput =
+    <K extends keyof MemberUpdateInput>(key: K) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProfileForm((prev) => ({ ...prev, [key]: e.target.value }));
+    };
+
+  // parol inputlari uchun
+  type PwdKeys =
+    | "memberPassword"
+    | "memberNewPassword"
+    | "memberConfirmPassword";
+  const onPasswordInput =
+    (key: PwdKeys) => (e: ChangeEvent<HTMLInputElement>) => {
+      setPasswordForm((prev) => ({ ...prev, [key]: e.target.value }));
+    };
 
   return (
     <Box
@@ -153,7 +239,7 @@ export default function AccountScreen() {
       }}
     >
       <Container sx={{ py: { xs: 3, md: 6 } }}>
-        {/* Top line: breadcrumb + welcome */}
+        {/* ---- Breadcrumb + Welcome ---- */}
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -163,7 +249,12 @@ export default function AccountScreen() {
         >
           <Stack direction="row" spacing={1.25} alignItems="center">
             <HomeOutlinedIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              sx={{ cursor: "pointer" }}
+              variant="body2"
+              color="text.secondary"
+              onClick={() => pushToHome()}
+            >
               Home
             </Typography>
             <Box
@@ -197,7 +288,7 @@ export default function AccountScreen() {
         </Stack>
 
         <Stack direction={{ xs: "column", lg: "row" }} spacing={3}>
-          {/* ============== LEFT: Sidebar ============== */}
+          {/* ---- LEFT ---- */}
           <Box
             sx={{
               width: { xs: "100%", lg: 300 },
@@ -211,7 +302,6 @@ export default function AccountScreen() {
               overflow: "hidden",
             }}
           >
-            {/* Avatar & quick search */}
             <Stack
               direction="row"
               spacing={1.5}
@@ -356,17 +446,28 @@ export default function AccountScreen() {
             </Stack>
           </Box>
 
-          {/* ============== RIGHT: Content ============== */}
+          {/* ---- RIGHT ---- */}
           <Stack flex={1} spacing={3}>
-            {/* Profile card */}
             <SectionCard title="Edit Your Profile">
               <Stack
                 direction={{ xs: "column", md: "row" }}
                 spacing={2}
                 sx={{ mb: 2 }}
               >
-                <TextField label={AccountPage?.memberNick} fullWidth />
-                <TextField label={AccountPage?.memberPhone} fullWidth />
+                {/* Nickname */}
+                <TextField
+                  label={AccountPage?.memberNick}
+                  fullWidth
+                  value={profileForm.memberNick}
+                  onChange={onProfileInput("memberNick")}
+                />
+                {/* Phone */}
+                <TextField
+                  label={AccountPage?.memberPhone}
+                  fullWidth
+                  value={profileForm.memberPhone}
+                  onChange={onProfileInput("memberPhone")}
+                />
               </Stack>
 
               <Stack
@@ -374,6 +475,7 @@ export default function AccountScreen() {
                 spacing={2}
                 sx={{ mb: 3 }}
               >
+                {/* Email (demo) */}
                 <TextField
                   label="Email"
                   type="email"
@@ -387,10 +489,12 @@ export default function AccountScreen() {
                     ),
                   }}
                 />
+                {/* Address */}
                 <TextField
                   label={AccountPage?.memberAddress}
                   fullWidth
-                  defaultValue="Your Address"
+                  value={profileForm.memberAddress}
+                  onChange={onProfileInput("memberAddress")}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -407,10 +511,13 @@ export default function AccountScreen() {
               </Typography>
 
               <Stack spacing={2} sx={{ mb: 3 }}>
+                {/* Current */}
                 <TextField
                   label="Current Password"
                   type="password"
                   fullWidth
+                  value={passwordForm.memberPassword}
+                  onChange={onPasswordInput("memberPassword")}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -419,11 +526,21 @@ export default function AccountScreen() {
                     ),
                   }}
                 />
-                <TextField label="New Password" type="password" fullWidth />
+                {/* New */}
+                <TextField
+                  label="New Password"
+                  type="password"
+                  fullWidth
+                  value={passwordForm.memberNewPassword}
+                  onChange={onPasswordInput("memberNewPassword")}
+                />
+                {/* Confirm */}
                 <TextField
                   label="Confirm New Password"
                   type="password"
                   fullWidth
+                  value={passwordForm.memberConfirmPassword}
+                  onChange={onPasswordInput("memberConfirmPassword")}
                 />
               </Stack>
 
@@ -436,6 +553,21 @@ export default function AccountScreen() {
                     px: 2.5,
                     borderColor: alpha(t.palette.text.primary, 0.2),
                     "&:hover": { borderColor: t.palette.text.primary },
+                  }}
+                  onClick={() => {
+                    if (!AccountPage) return;
+                    setProfileForm({
+                      memberNick: AccountPage.memberNick ?? "",
+                      memberPhone: AccountPage.memberPhone ?? "",
+                      memberAddress: AccountPage.memberAddress ?? "",
+                      memberDesc: AccountPage.memberDesc ?? "",
+                      memberImage: AccountPage.memberImage ?? "",
+                    });
+                    setPasswordForm({
+                      memberPassword: "",
+                      memberNewPassword: "",
+                      memberConfirmPassword: "",
+                    });
                   }}
                 >
                   Cancel
@@ -450,13 +582,13 @@ export default function AccountScreen() {
                     boxShadow: "0 10px 18px rgba(219,68,68,.25)",
                     "&:hover": { bgcolor: "#c93737" },
                   }}
+                  onClick={handleSave}
                 >
                   Save Changes
                 </Button>
               </Stack>
             </SectionCard>
 
-            {/* Optional: Quick stats / helpful card */}
             <SectionCard title="Account Highlights">
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                 <Box
