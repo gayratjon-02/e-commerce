@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../i18n';
+import "../i18n";
 // import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
 import HomePage from "./screens/HomePage";
@@ -71,12 +71,7 @@ function App() {
           <Account />
         </Route>
         <Route path="/cart">
-          <Cart
-            onAdd={onAdd}
-            onRemove={onRemove}
-            onDelete={onDelete}
-            onDeleteAll={onDeleteAll}
-          />
+          <Cart />
         </Route>
 
         <Route path={"/errorPage"}>

@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Container, Stack, Table } from "@mui/material";
+import { Breadcrumbs, Button, Container, Stack } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import CartTable from "./tableComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
 import { retrievePausedOrders } from "./selector";
-import { CartItem } from "../../../lib/types/search";
+import { useGlobals } from "../../hooks/useGlobals";
 
 /**  REDUX SLICE DISPATCH **/
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -30,38 +30,53 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   console.info("You clicked a breadcrumb.");
 }
 
-interface ProductsPageProps {
-  onAdd: (item: CartItem) => void;
-  onRemove: (item: CartItem) => void;
-  onDelete: (item: CartItem) => void;
-  onDeleteAll: () => void;
-}
-
-export default function Cart({
-  onAdd,
-  onDelete,
-  onDeleteAll,
-  onRemove,
-}: ProductsPageProps) {
+export default function Cart() {
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+  const { authMember } = useGlobals();
 
-  const { pausedOrders } = useSelector(pausedOrdersRetriever);
-
-  const [orderInquiry, setPrderInquiry] = useState<OrderInquiry>({
+  const [orderInquiry] = useState<OrderInquiry>({
     page: 1,
     limit: 5,
     orderStatus: OrderStatus.PAUSE,
   });
 
+  // 🔑 userga bog'langan localStorage kalitlari
+  const userKey = authMember?._id || "guest";
+  const tombKey = `deletedPausedItemIds_${userKey}`;
+  const clearedKey = `pausedCleared_${userKey}`;
+
   useEffect(() => {
+    const cleared = localStorage.getItem(clearedKey) === "1";
+    if (cleared) {
+      // foydalanuvchi Clear Cart qilgan — serverdan kelsa ham ko‘rsatmaymiz
+      setPausedOrders([]);
+      return;
+    }
+
     const order = new OrderService();
 
     order
       .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
-      .then((data) => setPausedOrders(data))
+      .then((data) => {
+        // tombstone bo‘yicha filter
+        const deletedIds: string[] = JSON.parse(
+          localStorage.getItem(tombKey) || "[]"
+        );
+        const filtered = (data || [])
+          .map((ord: any) => ({
+            ...ord,
+            orderItems: (ord.orderItems || []).filter(
+              (it: any) => !deletedIds.includes(it._id)
+            ),
+          }))
+          .filter((ord: any) => (ord.orderItems || []).length > 0);
+
+        setPausedOrders(filtered);
+      })
       .catch((err) => console.log(err));
 
+    // (Agar PROCESS/FINISH ham kerak bo‘lsa, ularni ham xuddi shu tarzda filter qil)
     order
       .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
       .then((data) => setProcessOrders(data))
@@ -71,7 +86,14 @@ export default function Cart({
       .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
       .then((data) => setFinishedOrders(data))
       .catch((err) => console.log(err));
-  }, [orderInquiry]);
+  }, [
+    orderInquiry,
+    setPausedOrders,
+    setProcessOrders,
+    setFinishedOrders,
+    tombKey,
+    clearedKey,
+  ]);
 
   return (
     <Container className="cart-container">
@@ -86,7 +108,6 @@ export default function Cart({
               <NavLink to={"/"} color="inherit" href="/">
                 Home
               </NavLink>
-
               <NavLink
                 to={"/cart"}
                 color="text.primary"
@@ -100,12 +121,7 @@ export default function Cart({
         </Stack>
 
         <Stack className="cart-wrapper">
-          <CartTable
-            onAdd={onAdd}
-            onRemove={onRemove}
-            onDelete={onDelete}
-            onDeleteAll={onDeleteAll}
-          />
+          <CartTable />
 
           <Stack
             className="coupon-total"

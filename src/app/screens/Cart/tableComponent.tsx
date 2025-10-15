@@ -14,21 +14,13 @@ import {
   Pagination,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { createSelector } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { retrievePausedOrders } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
-import { Order } from "../../../lib/types/order";
-
-interface CartTableProps {
-  onAdd: (item: CartItem) => void;
-  onRemove: (item: CartItem) => void;
-  onDelete: (item: CartItem) => void;
-  onDeleteAll: () => void;
-}
+import { removeItemFromPausedOrders, clearPausedOrders } from "./slice";
+import { useGlobals } from "../../hooks/useGlobals";
 
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
@@ -37,28 +29,39 @@ const pausedOrdersRetriever = createSelector(
 
 const ITEMS_PER_PAGE = 5;
 
-const CartTable: React.FC<CartTableProps> = ({
-  onAdd,
-  onRemove,
-  onDelete,
-  onDeleteAll,
-}) => {
+const CartTable: React.FC = () => {
+  const dispatch = useDispatch();
   const { pausedOrders } = useSelector(pausedOrdersRetriever);
+  const { authMember } = useGlobals();
+
+  // 🔑 userga bog'langan localStorage kalitlari
+  const userKey = authMember?._id || "guest";
+  const tombKey = `deletedPausedItemIds_${userKey}`;
+  const clearedKey = `pausedCleared_${userKey}`;
+
+  const saveTombstone = (id: string) => {
+    const arr = JSON.parse(localStorage.getItem(tombKey) || "[]");
+    if (!arr.includes(id)) {
+      arr.push(id);
+      localStorage.setItem(tombKey, JSON.stringify(arr));
+    }
+  };
+  const markCleared = () => {
+    localStorage.setItem(clearedKey, "1");
+    localStorage.removeItem(tombKey);
+  };
 
   // 🔹 Reduxdan kelgan barcha productlarni tayyorlaymiz
-  const allProducts = React.useMemo(() => {
+  const allProducts = React.useMemo<CartItem[]>(() => {
     return pausedOrders.flatMap((order: any) => {
       const { orderItems = [], productData = [] } = order;
-
       return orderItems.map((item: any) => {
         const product = productData.find((p: any) => p._id === item.productId);
-
         const imagePath =
           product?.productImages?.[0] ||
           product?.mainImagePath ||
           product?.imagePath ||
           "/productsImg/default.png";
-
         return {
           _id: item._id,
           name: product?.productName || "Unknown Product",
@@ -73,11 +76,9 @@ const CartTable: React.FC<CartTableProps> = ({
   const [products, setProducts] = React.useState<CartItem[]>(allProducts);
   const [page, setPage] = React.useState(1);
 
-  React.useEffect(() => {
-    setProducts(allProducts);
-  }, [allProducts]);
+  React.useEffect(() => setProducts(allProducts), [allProducts]);
 
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE));
   const handleChangePage = (_: any, value: number) => setPage(value);
 
   const productsToShow = products.slice(
@@ -85,43 +86,21 @@ const CartTable: React.FC<CartTableProps> = ({
     page * ITEMS_PER_PAGE
   );
 
-  /** 🔹 Quantity o‘zgartirish */
-  const handleQuantityChange = (product: CartItem, change: number) => {
-    if (change > 0) {
-      onAdd(product);
-      setProducts((prev) =>
-        prev.map((p) =>
-          p._id === product._id ? { ...p, quantity: p.quantity + 1 } : p
-        )
-      );
-    } else {
-      onRemove(product);
-      setProducts((prev) =>
-        prev
-          .map((p) =>
-            p._id === product._id
-              ? { ...p, quantity: Math.max(1, p.quantity - 1) }
-              : p
-          )
-          .filter((p) => p.quantity > 0)
-      );
-    }
-  };
-
-  /** 🔹 Productni o‘chirish (❌ bosilganda) */
+  /** 🔹 Productni o‘chirish (❌) — Redux + lokal jadval + tombstone */
   const handleDelete = (product: CartItem) => {
-    onDelete(product);
+    dispatch(removeItemFromPausedOrders(product._id));
     setProducts((prev) => prev.filter((p) => p._id !== product._id));
+    saveTombstone(product._id);
   };
 
-  /** 🔹 Cartni tozalash */
+  /** 🔹 Cartni tozalash — Redux + lokal jadval + cleared flag */
   const handleDeleteAll = () => {
-    onDeleteAll();
+    dispatch(clearPausedOrders());
     setProducts([]);
+    markCleared();
   };
 
   const getSubtotal = (price: number, qty: number) => price * qty;
-
   const totalPrice = products.reduce(
     (acc, p) => acc + getSubtotal(p.price, p.quantity),
     0
@@ -145,11 +124,7 @@ const CartTable: React.FC<CartTableProps> = ({
             </TableRow>
           </TableHead>
 
-          <TableBody
-            sx={{
-              backgroundColor: "rgba(148, 190, 211, 0.05)",
-            }}
-          >
+          <TableBody sx={{ backgroundColor: "rgba(148, 190, 211, 0.05)" }}>
             {productsToShow.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} align="center">
@@ -169,7 +144,6 @@ const CartTable: React.FC<CartTableProps> = ({
                     },
                   }}
                 >
-                  {/* 🔹 Product Image & Name */}
                   <TableCell>
                     <Box
                       sx={{
@@ -213,12 +187,11 @@ const CartTable: React.FC<CartTableProps> = ({
                     </Box>
                   </TableCell>
 
-                  {/* 🔹 Price */}
                   <TableCell>
                     ${Number(product.price || 0).toFixed(2)}
                   </TableCell>
 
-                  {/* 🔹 Quantity */}
+                  {/* Quantity faqat ko‘rinadi */}
                   <TableCell>
                     <Box
                       sx={{
@@ -230,27 +203,14 @@ const CartTable: React.FC<CartTableProps> = ({
                         px: 1,
                       }}
                     >
-                      <IconButton
-                        size="small"
-                        onClick={() => handleQuantityChange(product, -1)}
-                      >
-                        <RemoveIcon fontSize="small" />
-                      </IconButton>
                       <Typography
                         sx={{ mx: 1, minWidth: 20, textAlign: "center" }}
                       >
                         {product.quantity}
                       </Typography>
-                      <IconButton
-                        size="small"
-                        onClick={() => handleQuantityChange(product, 1)}
-                      >
-                        <AddIcon fontSize="small" />
-                      </IconButton>
                     </Box>
                   </TableCell>
 
-                  {/* 🔹 Subtotal */}
                   <TableCell>
                     $
                     {getSubtotal(product.price || 0, product.quantity).toFixed(
@@ -264,7 +224,6 @@ const CartTable: React.FC<CartTableProps> = ({
         </Table>
       </TableContainer>
 
-      {/* 🔹 Pagination */}
       {totalPages > 1 && (
         <Box display="flex" justifyContent="center" mt={3}>
           <Pagination
@@ -277,7 +236,6 @@ const CartTable: React.FC<CartTableProps> = ({
         </Box>
       )}
 
-      {/* 🔹 Footer */}
       <Box
         sx={{
           display: "flex",
