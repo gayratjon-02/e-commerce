@@ -10,11 +10,13 @@ import {
   sweetErrorHandling,
   sweetTopSuccessAlert,
 } from "../../../lib/sweetAlert";
+import { useGlobals } from "../../hooks/useGlobals";
 
 export default function Signup() {
   const [memberNick, setMemberNick] = useState<string>("");
   const [memberPhone, setMemberPhone] = useState<string>("");
   const [memberPassword, setMemberPassword] = useState<string>("");
+  const { setAuthMember } = useGlobals();
 
   const history = useHistory();
 
@@ -48,6 +50,11 @@ export default function Signup() {
       const result = await memberService.signup(signupInputs);
 
       (document.querySelector("form") as HTMLFormElement).reset();
+
+      setAuthMember(result);
+
+      // AUTH
+
       sweetTopSuccessAlert("Signup successfully");
       history.push("/");
     } catch (err) {
