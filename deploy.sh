@@ -10,7 +10,7 @@ yarn global add serve
 yarn
 
 # Environment variable ni o'rnatish
-export REACT_APP_API_URL=https://exclusiveshop.app/api
+export REACT_APP_API_URL=https://exclusiveshop.app/
 
 yarn run build
 
