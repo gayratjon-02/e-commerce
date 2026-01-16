@@ -115,24 +115,32 @@ export default function Detail({ onAdd }: ProductsPageProps) {
                 const thumb = `${serverApi}/${img}`;
                 const isActive = idx === activeImgIdx;
                 return (
-                  <Box
-                    key={img + idx}
-                    className="small-box"
-                    sx={{
-                      border: isActive
-                        ? "2px solid #d32f2f"
-                        : "1px solid #e0e0e0",
-                      borderRadius: "8px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setActiveImgIdx(idx)}
-                  >
-                    <img
-                      className="detail-img"
-                      src={thumb}
-                      alt={`small-${idx}`}
-                    />
-                  </Box>
+                    <Box
+                      key={img + idx}
+                      className="small-box"
+                      sx={{
+                        border: isActive
+                          ? "2px solid #d32f2f"
+                          : "1px solid #e0e0e0",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                        backgroundColor: "#fff",
+                      }}
+                      onClick={() => setActiveImgIdx(idx)}
+                    >
+                      <img
+                        className="detail-img"
+                        src={thumb}
+                        alt={`small-${idx}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                          display: "block",
+                        }}
+                      />
+                    </Box>
                 );
               })
             ) : (
@@ -167,8 +175,9 @@ export default function Detail({ onAdd }: ProductsPageProps) {
             <Stack
               className="product-collection"
               flexDirection="row"
-              justifyContent="space-evenly"
               alignItems="center"
+              gap={1}
+              sx={{ marginTop: "12px" }}
             >
               <Box className="detail-collection">Category</Box>
               <Divider width="2" height="1" bg="#d9d9d9" />
@@ -181,24 +190,28 @@ export default function Detail({ onAdd }: ProductsPageProps) {
               className="price-desc"
               flexDirection={"row"}
               justifyContent={"space-between"}
+              alignItems={"center"}
+              sx={{ marginTop: "16px", padding: "12px 0", borderTop: "1px solid #e0e0e0", borderBottom: "1px solid #e0e0e0" }}
             >
-              <span className="detail-price">
-                Price: ${chosenProduct.productPrice}
+              <span className="detail-price" style={{ color: "#d32f2f", fontWeight: 700, fontSize: "24px" }}>
+                ${chosenProduct.productPrice}
               </span>
 
-              <span className="detail-price">
-                Left only: {chosenProduct.productLeftCount}
+              <span className="detail-price" style={{ color: "#666", fontSize: "16px", fontWeight: 500 }}>
+                Stock: {chosenProduct.productLeftCount}
               </span>
             </Stack>
-            <Box sx={{ marginTop: "10px" }} className="detail-des">
-              {chosenProduct.productDesc}
+            {chosenProduct.productDesc && (
+              <Box sx={{ marginTop: "10px" }} className="detail-des">
+                {chosenProduct.productDesc}
+              </Box>
+            )}
+
+            <Box className="divider-detail" sx={{ marginTop: "20px", marginBottom: "8px" }}>
+              <Divider width="2" height="1" bg="#e0e0e0" />
             </Box>
 
-            <Box className="divider-detail" mt={4}>
-              <Divider width="2" height="1" bg="#d9d9d9" />
-            </Box>
-
-            {/* Colors (placeholder) */}
+            {/* Colors */}
             <Stack
               className="detail-color"
               flexDirection="row"
@@ -208,12 +221,36 @@ export default function Detail({ onAdd }: ProductsPageProps) {
               <Stack
                 className="color-options"
                 flexDirection="row"
-                justifyContent="space-between"
-                gap={1}
+                gap={1.5}
+                sx={{ marginLeft: "12px" }}
               >
-                <Box className="color-opt" />
-                <Box className="color-opt" />
-                <Box className="color-opt" />
+                <Box
+                  className="color-opt"
+                  sx={{
+                    backgroundColor: "#e07575",
+                    cursor: "pointer",
+                    "&:hover": { transform: "scale(1.15)" },
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+                <Box
+                  className="color-opt"
+                  sx={{
+                    backgroundColor: "#4a90e2",
+                    cursor: "pointer",
+                    "&:hover": { transform: "scale(1.15)" },
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+                <Box
+                  className="color-opt"
+                  sx={{
+                    backgroundColor: "#50c878",
+                    cursor: "pointer",
+                    "&:hover": { transform: "scale(1.15)" },
+                    transition: "transform 0.2s ease",
+                  }}
+                />
               </Stack>
             </Stack>
           </Stack>
@@ -221,19 +258,20 @@ export default function Detail({ onAdd }: ProductsPageProps) {
           {/* ======= Purchase Box ======= */}
           <Stack
             className="purchase-box"
-            mt={4}
+            sx={{ marginTop: "32px" }}
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <Box display="flex" gap={4}>
+            <Box display="flex" gap={2} alignItems="center" flexWrap="wrap">
               {/* Quantity control */}
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "8px",
                   overflow: "hidden",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                 }}
               >
                 <Button
@@ -241,8 +279,14 @@ export default function Detail({ onAdd }: ProductsPageProps) {
                   sx={{
                     minWidth: 36,
                     height: 36,
-                    color: "black",
+                    color: "#333",
+                    backgroundColor: "#f5f5f5",
                     borderRight: "1px solid #ccc",
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                    },
+                    fontWeight: "bold",
+                    fontSize: "18px",
                   }}
                 >
                   –
@@ -287,9 +331,18 @@ export default function Detail({ onAdd }: ProductsPageProps) {
                   backgroundColor: "#d32f2f",
                   color: "#fff",
                   textTransform: "none",
-                  fontWeight: "bold",
-                  height: 36,
-                  "&:hover": { backgroundColor: "#b71c1c" },
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  height: 44,
+                  paddingX: 3,
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(211, 47, 47, 0.3)",
+                  "&:hover": { 
+                    backgroundColor: "#b71c1c",
+                    boxShadow: "0 6px 16px rgba(211, 47, 47, 0.4)",
+                    transform: "translateY(-1px)",
+                  },
+                  transition: "all 0.2s ease",
                 }}
                 onClick={handleAddToBasket}
               >
@@ -299,14 +352,21 @@ export default function Detail({ onAdd }: ProductsPageProps) {
               {/* Heart icon */}
               <IconButton
                 sx={{
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  width: 36,
-                  height: 36,
-                  "&:hover": { backgroundColor: "#f9f9f9" },
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "8px",
+                  width: 44,
+                  height: 44,
+                  backgroundColor: "#fff",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  "&:hover": { 
+                    backgroundColor: "#f5f5f5",
+                    borderColor: "#d32f2f",
+                    transform: "scale(1.05)",
+                  },
+                  transition: "all 0.2s ease",
                 }}
               >
-                <FavoriteBorderIcon />
+                <FavoriteBorderIcon sx={{ fontSize: "20px" }} />
               </IconButton>
             </Box>
           </Stack>
