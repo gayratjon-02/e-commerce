@@ -18,7 +18,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { retrieveMixedProducts } from "./selector";
 import { CartItem } from "../../../lib/types/search";
 import { useDispatch, useSelector } from "react-redux";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { useEffect, useRef } from "react";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
@@ -193,9 +193,7 @@ export default function ExploreProducts(props: FlashSalesProps) {
         >
           {mixedProducts.length > 0 ? (
             mixedProducts.map((ele) => {
-              const imagePath = ele.productImages?.length
-                ? `${serverApi}/${ele.productImages[0]}`
-                : "/productsImg/gamepad-2.png";
+              const imagePath = getImageUrl(ele.productImages?.[0]);
 
               return (
                 <Stack

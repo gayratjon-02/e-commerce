@@ -4,7 +4,7 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { createSelector } from "@reduxjs/toolkit";
 import { retrieveBestSellingProducts, retrieveFlashSales } from "./selector";
 import { useSelector } from "react-redux";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 import { NavLink, useHistory } from "react-router-dom";
 
@@ -63,9 +63,7 @@ export default function BestSellingProducts(props: BestSellingProductsProps) {
 
       <Stack className="products-wrapper" flexDirection={"row"}>
         {bestSellingProducts.map((ele) => {
-          const imagePath = ele.productImages?.length
-            ? `${serverApi}/${ele.productImages[0]}`
-            : "/productsImg/gamepad-2.png";
+          const imagePath = getImageUrl(ele.productImages?.[0]);
 
           return (
             <Stack

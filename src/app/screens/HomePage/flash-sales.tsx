@@ -9,7 +9,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFlashSales } from "./selector";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { useCountdown } from "./useCountdown";
 import { CartItem } from "../../../lib/types/search";
 
@@ -124,9 +124,7 @@ export default function FlashSales({ onAdd }: FlashSalesProps) {
           >
             {flashSales.length > 0 ? (
               flashSales.map((ele) => {
-                const imagePath = ele.productImages?.length
-                  ? `${serverApi}/${ele.productImages[0]}`
-                  : "/productsImg/gamepad-2.png";
+                const imagePath = getImageUrl(ele.productImages?.[0]);
 
                 return (
                   <Stack

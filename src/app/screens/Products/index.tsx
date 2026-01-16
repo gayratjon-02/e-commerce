@@ -20,7 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector, useDispatch } from "react-redux";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
@@ -246,9 +246,7 @@ export default function ProductsPage({ onAdd }: ProductsPageProps) {
                   >
                     {filteredProducts && filteredProducts.length > 0 ? (
                       filteredProducts.map((ele) => {
-                        const imagePath = ele.productImages?.length
-                          ? `${serverApi}/${ele.productImages[0]}`
-                          : "/productsImg/gamepad-2.png";
+                        const imagePath = getImageUrl(ele.productImages?.[0]);
 
                         return (
                           <Stack

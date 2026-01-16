@@ -16,7 +16,7 @@ import { setChosenProducts } from "./slice";
 import { retrieveChosenProducts } from "./selector";
 import ProductService from "../../services/ProductService";
 import { useDispatch, useSelector } from "react-redux";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SELECTOR **/
@@ -81,10 +81,7 @@ export default function Detail({ onAdd }: ProductsPageProps) {
     ? chosenProduct.productImages
     : [];
 
-  const mainImagePath =
-    images.length > 0
-      ? `${serverApi}/${images[activeImgIdx]}`
-      : "/productsImg/gamepad-2.png";
+  const mainImagePath = getImageUrl(images[activeImgIdx]);
 
   return (
     <Stack className="products-detail">
@@ -112,7 +109,7 @@ export default function Detail({ onAdd }: ProductsPageProps) {
           <Stack className="detail-box-small" justifyContent="space-between">
             {images.length > 0 ? (
               images.map((img, idx) => {
-                const thumb = `${serverApi}/${img}`;
+                const thumb = getImageUrl(img);
                 const isActive = idx === activeImgIdx;
                 return (
                     <Box

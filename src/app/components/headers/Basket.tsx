@@ -7,7 +7,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
-import { Messages, serverApi } from "../../../lib/config";
+import { Messages, getImageUrl } from "../../../lib/config";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
@@ -118,7 +118,7 @@ export default function Basket(props: BasketProps) {
           <Box className={"orders-main-wrapper"}>
             <Box className={"orders-wrapper"}>
               {cartItems.map((item: CartItem) => {
-                const imagePath = `${serverApi}/${item.image}`;
+                const imagePath = getImageUrl(item.image);
                 return (
                   <Box className={"basket-info-box"}>
                     <div className={"cancel-btn"}>

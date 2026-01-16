@@ -9,8 +9,8 @@ npm i yarn -g
 yarn global add serve
 yarn
 
-# Environment variable ni o'rnatish (server IP ni o'zgartiring kerak bo'lsa)
-export REACT_APP_API_URL=http://209.97.168.255:3003
+# Environment variable ni o'rnatish
+export REACT_APP_API_URL=https://exclusiveshop.app/api
 
 yarn run build
 

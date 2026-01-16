@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Close";
 import { createSelector } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { retrievePausedOrders } from "./selector";
-import { serverApi } from "../../../lib/config";
+import { getImageUrl } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 import { removeItemFromPausedOrders, clearPausedOrders } from "./slice";
 import { useGlobals } from "../../hooks/useGlobals";
@@ -67,7 +67,7 @@ const CartTable: React.FC = () => {
           name: product?.productName || "Unknown Product",
           price: item.itemPrice ?? product?.productPrice ?? 0,
           quantity: item.itemQuantity ?? 1,
-          image: `${serverApi}/${imagePath}`,
+          image: getImageUrl(imagePath),
         } as CartItem;
       });
     });
