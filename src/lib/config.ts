@@ -6,38 +6,29 @@ if (!apiUrl) {
   throw new Error("REACT_APP_API_URL environment variable is required");
 }
 
-export const serverApi: string = apiUrl;
+// Backend URL ni tozalash (trailing slash ni olib tashlash)
+const cleanApiUrl = apiUrl.endsWith("/") ? apiUrl.slice(0, -1) : apiUrl;
+export const serverApi: string = cleanApiUrl;
 
-// // Rasm URL'ini to'g'ri formatda qaytarish
-// export const getImageUrl = (imagePath: string | undefined | null): string => {
-//   if (!imagePath) {
-//     return "/productsImg/gamepad-2.png"; // default rasm
-//   }
+// Rasm URL'ini to'g'ri formatda qaytarish
+export const getImageUrl = (imagePath: string | undefined | null): string => {
+  if (!imagePath) {
+    return "/productsImg/gamepad-2.png"; // default rasm
+  }
 
-//   // Agar allaqachon to'liq URL bo'lsa (http:// yoki https:// bilan boshlansa)
-//   if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-//     return imagePath;
-//   }
+  // Agar allaqachon to'liq URL bo'lsa (http:// yoki https:// bilan boshlansa)
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
 
-//   // Agar path `/` bilan boshlansa
-//   if (imagePath.startsWith("/")) {
-//     // Agar serverApi `/api` bilan tugasa, `/api` ni olib tashlaymiz
-//     // Masalan: https://exclusiveshop.app/api -> https://exclusiveshop.app
-//     const baseUrl = serverApi.endsWith("/api") 
-//       ? serverApi.replace(/\/api$/, "") 
-//       : serverApi;
-//     return `${baseUrl}${imagePath}`;
-//   }
+  // Agar path `/` bilan boshlansa (masalan: /uploads/product.jpg)
+  if (imagePath.startsWith("/")) {
+    return `${serverApi}${imagePath}`;
+  }
 
-//   // Oddiy path bo'lsa (masalan: "uploads/product.jpg")
-//   // Agar serverApi `/api` bilan tugasa, `/api/uploads/...` formatida qaytaramiz
-//   // Aks holda, oddiy qo'shamiz
-//   if (serverApi.endsWith("/api")) {
-//     return `${serverApi}/${imagePath}`;
-//   }
-  
-//   return `${serverApi}/${imagePath}`;
-// };
+  // Oddiy path bo'lsa (masalan: "uploads/product.jpg")
+  return `${serverApi}/${imagePath}`;
+};
 
 export const Messages = {
   error1: "Something went wrong!",
